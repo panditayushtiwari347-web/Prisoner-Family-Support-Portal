@@ -1,0 +1,62 @@
+@model PrisonerPortal.Models.ViewModels.VisitSlotViewModel
+@{
+    ViewData["Title"] = "Create Slot";
+}
+
+<div class="row w-100 m-0">
+    <div class="col-12 col-md-8 mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <a asp-action="VisitSlots" class="btn btn-sm btn-light text-muted mb-2"><i class="fa-solid fa-arrow-left me-2"></i>Back to Schedule</a>
+                <h2 class="font-serif fw-bold mb-0">Create Time Slot</h2>
+            </div>
+        </div>
+
+        <div class="card content-card">
+            <form asp-action="CreateSlot" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4 p-3 bg-danger bg-opacity-10 rounded"></div>
+
+                <div class="mb-4">
+                    <label asp-for="SlotDate" class="form-label fw-semibold text-uppercase small text-muted">Date of Visit Event</label>
+                    <input asp-for="SlotDate" class="form-control form-control-lg" type="date" />
+                    <span asp-validation-for="SlotDate" class="field-validation-error"></span>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label asp-for="StartTime" class="form-label fw-semibold text-uppercase small text-muted">Start Time</label>
+                        <input asp-for="StartTime" class="form-control form-control-lg" type="time" />
+                        <span asp-validation-for="StartTime" class="field-validation-error"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="EndTime" class="form-label fw-semibold text-uppercase small text-muted">End Time</label>
+                        <input asp-for="EndTime" class="form-control form-control-lg" type="time" />
+                        <span asp-validation-for="EndTime" class="field-validation-error"></span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="MaxCapacity" class="form-label fw-semibold text-uppercase small text-muted">Maximum Visitor Capacity</label>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-users text-muted"></i></span>
+                        <input asp-for="MaxCapacity" class="form-control border-start-0" type="number" min="1" max="100" />
+                    </div>
+                    <span asp-validation-for="MaxCapacity" class="field-validation-error"></span>
+                    <div class="form-text mt-2"><i class="fa-solid fa-circle-info text-primary me-2"></i>Limits how many appointments can be booked for this specific time window.</div>
+                </div>
+
+                <hr class="my-4 text-muted opacity-25" />
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary px-5 py-2 fw-bold shadow-sm">
+                        <i class="fa-solid fa-floppy-disk me-2"></i> Save Slot
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

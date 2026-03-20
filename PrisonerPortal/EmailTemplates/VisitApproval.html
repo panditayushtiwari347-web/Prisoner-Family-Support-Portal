@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-top: 4px solid #10b981; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .logo { font-size: 24px; font-weight: bold; color: #10b981; }
+        .content { background: #f9fafb; padding: 20px; border-radius: 5px; }
+        .details { background: #fff; padding: 15px; border-left: 4px solid #10b981; margin: 15px 0; }
+        .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #777; }
+        .button { display: inline-block; padding: 10px 20px; background-color: #10b981; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Prisoner Family Support Portal</div>
+        </div>
+        <div class="content">
+            <h2>Visit Approved</h2>
+            <p>Dear {{Name}},</p>
+            <p>Your visit request has been successfully <strong>APPROVED</strong> by the facility administration.</p>
+            
+            <div class="details">
+                <p><strong>Appointment Code:</strong> {{AppointmentCode}}</p>
+                <p><strong>Inmate:</strong> {{PrisonerName}}</p>
+                <p><strong>Date:</strong> {{Date}}</p>
+                <p><strong>Time:</strong> {{Time}}</p>
+            </div>
+            
+            <p><strong>Important:</strong> Please arrive at the facility at least 30 minutes before your scheduled start time. All visitors listed on the request must present valid government-issued photo identification.</p>
+            <p>Dress code and facility rules must be strictly adhered to during your visit.</p>
+            
+            <center><a href="{{PortalUrl}}" class="button" style="color:white !important;">View Appointment Details</a></center>
+        </div>
+        <div class="footer">
+            &copy; 2026 Prisoner Family Support Portal. This is an automated message.
+        </div>
+    </div>
+</body>
+</html>

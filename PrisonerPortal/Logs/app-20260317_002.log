@@ -1,0 +1,605 @@
+2026-03-17 10:11:15.084 +05:30 [INF] User profile is available. Using 'C:\Users\HP\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-03-17 10:11:15.487 +05:30 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-03-17 10:11:15.861 +05:30 [INF] Executed DbCommand (22ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-03-17 10:11:15.896 +05:30 [INF] Executed DbCommand (18ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-03-17 10:11:15.907 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-03-17 10:11:15.910 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-03-17 10:11:15.923 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2026-03-17 10:11:15.937 +05:30 [INF] No migrations were applied. The database is already up to date.
+2026-03-17 10:11:16.115 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[@__normalizedName_0='ADMIN' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2026-03-17 10:11:16.165 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='FAMILY' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2026-03-17 10:11:16.185 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:11:16.253 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='FAMILY@TEST.COM' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:11:16.271 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Prisoners] AS [p]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-03-17 10:11:16.292 +05:30 [INF] Executed DbCommand (14ms) [Parameters=[@__normalizedEmail_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:11:16.299 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [VisitSlots] AS [v]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-03-17 10:11:16.328 +05:30 [INF] Database migration and seeding completed successfully.
+2026-03-17 10:11:16.379 +05:30 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5000: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.DefaultAddressStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2026-03-17 10:14:05.392 +05:30 [INF] User profile is available. Using 'C:\Users\HP\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-03-17 10:14:05.781 +05:30 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-03-17 10:14:06.162 +05:30 [INF] Executed DbCommand (21ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-03-17 10:14:06.194 +05:30 [INF] Executed DbCommand (18ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-03-17 10:14:06.196 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-03-17 10:14:06.198 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-03-17 10:14:06.218 +05:30 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2026-03-17 10:14:06.230 +05:30 [INF] No migrations were applied. The database is already up to date.
+2026-03-17 10:14:06.409 +05:30 [INF] Executed DbCommand (14ms) [Parameters=[@__normalizedName_0='ADMIN' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2026-03-17 10:14:06.452 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='FAMILY' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2026-03-17 10:14:06.470 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedEmail_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:14:06.529 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='FAMILY@TEST.COM' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:14:06.547 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Prisoners] AS [p]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-03-17 10:14:06.549 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:14:06.554 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [VisitSlots] AS [v]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-03-17 10:14:06.583 +05:30 [INF] Database migration and seeding completed successfully.
+2026-03-17 10:14:06.632 +05:30 [INF] Now listening on: http://localhost:5104
+2026-03-17 10:14:06.633 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-17 10:14:06.634 +05:30 [INF] Hosting environment: Development
+2026-03-17 10:14:06.634 +05:30 [INF] Content root path: C:\Users\HP\Desktop\Adarsh Yadav Project\PrisonerPortal
+2026-03-17 10:14:39.870 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/ - null null
+2026-03-17 10:14:39.874 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-03-17 10:14:39.971 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AccountController.Login (PrisonerPortal)'
+2026-03-17 10:14:39.991 +05:30 [INF] Route matched with {action = "Login", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Login() on controller PrisonerPortal.Controllers.AccountController (PrisonerPortal).
+2026-03-17 10:14:43.038 +05:30 [INF] Executing ViewResult, running view Login.
+2026-03-17 10:14:44.052 +05:30 [INF] Executed ViewResult - view Login executed in 4036.5877ms.
+2026-03-17 10:14:44.053 +05:30 [INF] Executed action PrisonerPortal.Controllers.AccountController.Login (PrisonerPortal) in 4060.6007ms
+2026-03-17 10:14:44.054 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AccountController.Login (PrisonerPortal)'
+2026-03-17 10:14:44.061 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/ - 200 null text/html; charset=utf-8 4191.735ms
+2026-03-17 10:14:44.074 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/css/components.css?v=elf4DFhCVIE8d9eGP2egurRhUBwkdM7IqUaeO1X2ZPo - null null
+2026-03-17 10:14:44.075 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/js/site.js?v=zIkpxiSb20xI1GzbX49ogguRCWNfYaxVh_KTD9brSds - null null
+2026-03-17 10:14:44.075 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/lib/jquery-validation/dist/jquery.validate.min.js - null null
+2026-03-17 10:14:44.075 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/css/site.css?v=KcI1ZzOVZ0l2MjRbhyD1kR9OSFOKdgK5FhnNHelmdmY - null null
+2026-03-17 10:14:44.076 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js - null null
+2026-03-17 10:14:44.091 +05:30 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\HP\Desktop\Adarsh Yadav Project\PrisonerPortal\wwwroot\css\site.css'
+2026-03-17 10:14:44.092 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/css/site.css?v=KcI1ZzOVZ0l2MjRbhyD1kR9OSFOKdgK5FhnNHelmdmY - 200 3195 text/css 17.1278ms
+2026-03-17 10:14:44.094 +05:30 [INF] Sending file. Request path: '/css/components.css'. Physical path: 'C:\Users\HP\Desktop\Adarsh Yadav Project\PrisonerPortal\wwwroot\css\components.css'
+2026-03-17 10:14:44.094 +05:30 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\HP\Desktop\Adarsh Yadav Project\PrisonerPortal\wwwroot\js\site.js'
+2026-03-17 10:14:44.094 +05:30 [INF] Sending file. Request path: '/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js'. Physical path: 'C:\Users\HP\Desktop\Adarsh Yadav Project\PrisonerPortal\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js'
+2026-03-17 10:14:44.094 +05:30 [INF] Sending file. Request path: '/lib/jquery-validation/dist/jquery.validate.min.js'. Physical path: 'C:\Users\HP\Desktop\Adarsh Yadav Project\PrisonerPortal\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js'
+2026-03-17 10:14:44.095 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js - 200 5824 text/javascript 18.3898ms
+2026-03-17 10:14:44.095 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/js/site.js?v=zIkpxiSb20xI1GzbX49ogguRCWNfYaxVh_KTD9brSds - 200 2372 text/javascript 19.9322ms
+2026-03-17 10:14:44.095 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/css/components.css?v=elf4DFhCVIE8d9eGP2egurRhUBwkdM7IqUaeO1X2ZPo - 200 3432 text/css 20.5784ms
+2026-03-17 10:14:44.095 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/lib/jquery-validation/dist/jquery.validate.min.js - 200 25308 text/javascript 19.7047ms
+2026-03-17 10:14:44.756 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/favicon.ico - null null
+2026-03-17 10:14:44.758 +05:30 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Users\HP\Desktop\Adarsh Yadav Project\PrisonerPortal\wwwroot\favicon.ico'
+2026-03-17 10:14:44.758 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/favicon.ico - 200 5430 image/x-icon 2.1333ms
+2026-03-17 10:15:26.932 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5104/ - application/x-www-form-urlencoded 272
+2026-03-17 10:15:26.936 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AccountController.Login (PrisonerPortal)'
+2026-03-17 10:15:26.955 +05:30 [INF] Route matched with {action = "Login", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(PrisonerPortal.Models.ViewModels.LoginViewModel) on controller PrisonerPortal.Controllers.AccountController (PrisonerPortal).
+2026-03-17 10:15:27.032 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedEmail_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:15:27.052 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedUserName_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2026-03-17 10:15:27.217 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__user_Id_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[ClaimType], [a].[ClaimValue], [a].[UserId]
+FROM [AspNetUserClaims] AS [a]
+WHERE [a].[UserId] = @__user_Id_0
+2026-03-17 10:15:27.254 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2026-03-17 10:15:27.260 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedName_0='ADMIN' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2026-03-17 10:15:27.270 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@__role_Id_0='a09f9db7-3085-4748-a42c-f4859769961e' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[ClaimType], [a].[ClaimValue]
+FROM [AspNetRoleClaims] AS [a]
+WHERE [a].[RoleId] = @__role_Id_0
+2026-03-17 10:15:27.277 +05:30 [INF] AuthenticationScheme: Identity.Application signed in.
+2026-03-17 10:15:27.404 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@p0='Login' (Nullable = false) (Size = 4000), @p1='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 4000), @p2='ApplicationUser' (Nullable = false) (Size = 4000), @p3='::1' (Size = 4000), @p4=NULL (Size = 4000), @p5=NULL (Size = 4000), @p6='2026-03-17T04:45:27.2852594Z', @p7='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [AuditLogs] ([Action], [EntityId], [EntityType], [IPAddress], [NewValues], [OldValues], [Timestamp], [UserId])
+OUTPUT INSERTED.[LogId]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7);
+2026-03-17 10:15:27.434 +05:30 [INF] Executing RedirectResult, redirecting to /Admin/Dashboard.
+2026-03-17 10:15:27.435 +05:30 [INF] Executed action PrisonerPortal.Controllers.AccountController.Login (PrisonerPortal) in 478.9679ms
+2026-03-17 10:15:27.435 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AccountController.Login (PrisonerPortal)'
+2026-03-17 10:15:27.439 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5104/ - 302 0 null 506.4227ms
+2026-03-17 10:15:27.440 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Admin/Dashboard - null null
+2026-03-17 10:15:27.458 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AdminController.Dashboard (PrisonerPortal)'
+2026-03-17 10:15:27.465 +05:30 [INF] Route matched with {action = "Dashboard", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Dashboard() on controller PrisonerPortal.Controllers.AdminController (PrisonerPortal).
+2026-03-17 10:15:27.623 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedRoleName_0='FAMILY' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2026-03-17 10:15:27.644 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@__role_Id_0='b23a1e42-6d28-4c89-a550-b0519e5c57aa' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Id], [a0].[AccessFailedCount], [a0].[Address], [a0].[ConcurrencyStamp], [a0].[CreatedAt], [a0].[Email], [a0].[EmailConfirmed], [a0].[FullName], [a0].[IsActive], [a0].[LockoutEnabled], [a0].[LockoutEnd], [a0].[NormalizedEmail], [a0].[NormalizedUserName], [a0].[PasswordHash], [a0].[PhoneNumber], [a0].[PhoneNumberConfirmed], [a0].[Role], [a0].[SecurityStamp], [a0].[TwoFactorEnabled], [a0].[UserName]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetUsers] AS [a0] ON [a].[UserId] = [a0].[Id]
+WHERE [a].[RoleId] = @__role_Id_0
+2026-03-17 10:15:27.704 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Prisoners] AS [p]
+WHERE [p].[Status] = N'Active'
+2026-03-17 10:15:27.750 +05:30 [INF] Executed DbCommand (14ms) [Parameters=[@__today_0='2026-03-17T00:00:00.0000000Z'], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Appointments] AS [a]
+INNER JOIN [VisitSlots] AS [v] ON [a].[SlotId] = [v].[SlotId]
+WHERE [a].[Status] IN (N'Pending', N'Approved') AND [v].[SlotDate] = @__today_0
+2026-03-17 10:15:27.760 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [SupportRequests] AS [s]
+WHERE [s].[Status] IN (N'Open', N'InProgress')
+2026-03-17 10:15:27.819 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@__p_0='10'], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[AppointmentId], [t].[AdminNotes], [t].[AppointmentCode], [t].[BookedAt], [t].[NumVisitors], [t].[PrisonerId], [t].[Purpose], [t].[RejectionReason], [t].[SlotId], [t].[Status], [t].[UpdatedAt], [t].[UserId], [t].[VisitorNames], [p].[PrisonerId], [p].[CaseNumber], [p].[CellBlock], [p].[CellNumber], [p].[CreatedAt], [p].[CrimeCategory], [p].[DateOfBirth], [p].[FullName], [p].[Gender], [p].[PrisonerCode], [p].[SentenceEndDate], [p].[SentenceStartDate], [p].[Status], [p].[UpdatedAt], [a0].[Id], [a0].[AccessFailedCount], [a0].[Address], [a0].[ConcurrencyStamp], [a0].[CreatedAt], [a0].[Email], [a0].[EmailConfirmed], [a0].[FullName], [a0].[IsActive], [a0].[LockoutEnabled], [a0].[LockoutEnd], [a0].[NormalizedEmail], [a0].[NormalizedUserName], [a0].[PasswordHash], [a0].[PhoneNumber], [a0].[PhoneNumberConfirmed], [a0].[Role], [a0].[SecurityStamp], [a0].[TwoFactorEnabled], [a0].[UserName], [v].[SlotId], [v].[CreatedAt], [v].[CreatedByAdminId], [v].[CurrentBookings], [v].[EndTime], [v].[IsActive], [v].[MaxCapacity], [v].[SlotDate], [v].[StartTime]
+FROM (
+    SELECT TOP(@__p_0) [a].[AppointmentId], [a].[AdminNotes], [a].[AppointmentCode], [a].[BookedAt], [a].[NumVisitors], [a].[PrisonerId], [a].[Purpose], [a].[RejectionReason], [a].[SlotId], [a].[Status], [a].[UpdatedAt], [a].[UserId], [a].[VisitorNames]
+    FROM [Appointments] AS [a]
+    WHERE [a].[Status] = N'Pending'
+    ORDER BY [a].[BookedAt]
+) AS [t]
+INNER JOIN [Prisoners] AS [p] ON [t].[PrisonerId] = [p].[PrisonerId]
+INNER JOIN [AspNetUsers] AS [a0] ON [t].[UserId] = [a0].[Id]
+INNER JOIN [VisitSlots] AS [v] ON [t].[SlotId] = [v].[SlotId]
+ORDER BY [t].[BookedAt]
+2026-03-17 10:15:27.848 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='10'], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[RequestId], [t].[AdminResponse], [t].[AssignedAdminId], [t].[Category], [t].[CreatedAt], [t].[Description], [t].[Priority], [t].[PrisonerId], [t].[RequestCode], [t].[ResolvedAt], [t].[Status], [t].[Subject], [t].[UpdatedAt], [t].[UserId], [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [p].[PrisonerId], [p].[CaseNumber], [p].[CellBlock], [p].[CellNumber], [p].[CreatedAt], [p].[CrimeCategory], [p].[DateOfBirth], [p].[FullName], [p].[Gender], [p].[PrisonerCode], [p].[SentenceEndDate], [p].[SentenceStartDate], [p].[Status], [p].[UpdatedAt]
+FROM (
+    SELECT TOP(@__p_0) [s].[RequestId], [s].[AdminResponse], [s].[AssignedAdminId], [s].[Category], [s].[CreatedAt], [s].[Description], [s].[Priority], [s].[PrisonerId], [s].[RequestCode], [s].[ResolvedAt], [s].[Status], [s].[Subject], [s].[UpdatedAt], [s].[UserId]
+    FROM [SupportRequests] AS [s]
+    ORDER BY [s].[CreatedAt] DESC
+) AS [t]
+INNER JOIN [AspNetUsers] AS [a] ON [t].[UserId] = [a].[Id]
+INNER JOIN [Prisoners] AS [p] ON [t].[PrisonerId] = [p].[PrisonerId]
+ORDER BY [t].[CreatedAt] DESC
+2026-03-17 10:15:27.882 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [f].[LinkId], [f].[IsVerified], [f].[LinkedAt], [f].[PrisonerId], [f].[Relationship], [f].[UserId], [f].[VerifiedByAdminId], [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [p].[PrisonerId], [p].[CaseNumber], [p].[CellBlock], [p].[CellNumber], [p].[CreatedAt], [p].[CrimeCategory], [p].[DateOfBirth], [p].[FullName], [p].[Gender], [p].[PrisonerCode], [p].[SentenceEndDate], [p].[SentenceStartDate], [p].[Status], [p].[UpdatedAt]
+FROM [FamilyPrisonerLinks] AS [f]
+INNER JOIN [AspNetUsers] AS [a] ON [f].[UserId] = [a].[Id]
+INNER JOIN [Prisoners] AS [p] ON [f].[PrisonerId] = [p].[PrisonerId]
+WHERE [f].[IsVerified] = CAST(0 AS bit)
+ORDER BY [f].[LinkedAt]
+2026-03-17 10:15:28.492 +05:30 [INF] Executing ViewResult, running view Dashboard.
+2026-03-17 10:15:29.224 +05:30 [INF] Executed ViewResult - view Dashboard executed in 1340.2641ms.
+2026-03-17 10:15:29.225 +05:30 [INF] Executed action PrisonerPortal.Controllers.AdminController.Dashboard (PrisonerPortal) in 1759.5688ms
+2026-03-17 10:15:29.225 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AdminController.Dashboard (PrisonerPortal)'
+2026-03-17 10:15:29.225 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Admin/Dashboard - 200 null text/html; charset=utf-8 1785.2614ms
+2026-03-17 10:15:29.258 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - null null
+2026-03-17 10:15:29.265 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:15:29.267 +05:30 [INF] Route matched with {action = "GetUnreadCount", controller = "Notifications"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetUnreadCount() on controller PrisonerPortal.Controllers.NotificationsController (PrisonerPortal).
+2026-03-17 10:15:29.282 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Notifications] AS [n]
+WHERE [n].[UserId] = @__userId_0 AND [n].[IsRead] = CAST(0 AS bit)
+2026-03-17 10:15:29.290 +05:30 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-17 10:15:29.359 +05:30 [INF] Executed action PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal) in 92.3605ms
+2026-03-17 10:15:29.359 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:15:29.360 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - 200 null application/json; charset=utf-8 101.164ms
+2026-03-17 10:15:51.388 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Admin/Users - null null
+2026-03-17 10:15:51.411 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AdminController.Users (PrisonerPortal)'
+2026-03-17 10:15:51.421 +05:30 [INF] Route matched with {action = "Users", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Users(System.String, System.String) on controller PrisonerPortal.Controllers.AdminController (PrisonerPortal).
+2026-03-17 10:15:51.455 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+ORDER BY [a].[CreatedAt] DESC
+2026-03-17 10:15:51.632 +05:30 [INF] Executing ViewResult, running view Users.
+2026-03-17 10:15:51.655 +05:30 [INF] Executed ViewResult - view Users executed in 196.6927ms.
+2026-03-17 10:15:51.655 +05:30 [INF] Executed action PrisonerPortal.Controllers.AdminController.Users (PrisonerPortal) in 234.0565ms
+2026-03-17 10:15:51.655 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AdminController.Users (PrisonerPortal)'
+2026-03-17 10:15:51.655 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Admin/Users - 200 null text/html; charset=utf-8 267.0835ms
+2026-03-17 10:15:51.686 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - null null
+2026-03-17 10:15:51.689 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:15:51.690 +05:30 [INF] Route matched with {action = "GetUnreadCount", controller = "Notifications"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetUnreadCount() on controller PrisonerPortal.Controllers.NotificationsController (PrisonerPortal).
+2026-03-17 10:15:51.692 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Notifications] AS [n]
+WHERE [n].[UserId] = @__userId_0 AND [n].[IsRead] = CAST(0 AS bit)
+2026-03-17 10:15:51.692 +05:30 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-17 10:15:51.693 +05:30 [INF] Executed action PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal) in 3.0725ms
+2026-03-17 10:15:51.693 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:15:51.693 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - 200 null application/json; charset=utf-8 6.6744ms
+2026-03-17 10:16:01.480 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Account/Profile - null null
+2026-03-17 10:16:01.481 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AccountController.Profile (PrisonerPortal)'
+2026-03-17 10:16:01.489 +05:30 [INF] Route matched with {action = "Profile", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Profile() on controller PrisonerPortal.Controllers.AccountController (PrisonerPortal).
+2026-03-17 10:16:01.514 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[Id] = @__p_0
+2026-03-17 10:16:01.647 +05:30 [INF] Executing ViewResult, running view Profile.
+2026-03-17 10:16:01.674 +05:30 [INF] Executed ViewResult - view Profile executed in 157.7192ms.
+2026-03-17 10:16:01.674 +05:30 [INF] Executed action PrisonerPortal.Controllers.AccountController.Profile (PrisonerPortal) in 184.2948ms
+2026-03-17 10:16:01.674 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AccountController.Profile (PrisonerPortal)'
+2026-03-17 10:16:01.674 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Account/Profile - 200 null text/html; charset=utf-8 194.3615ms
+2026-03-17 10:16:01.709 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - null null
+2026-03-17 10:16:01.710 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:16:01.710 +05:30 [INF] Route matched with {action = "GetUnreadCount", controller = "Notifications"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetUnreadCount() on controller PrisonerPortal.Controllers.NotificationsController (PrisonerPortal).
+2026-03-17 10:16:01.714 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Notifications] AS [n]
+WHERE [n].[UserId] = @__userId_0 AND [n].[IsRead] = CAST(0 AS bit)
+2026-03-17 10:16:01.715 +05:30 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-17 10:16:01.715 +05:30 [INF] Executed action PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal) in 4.5682ms
+2026-03-17 10:16:01.715 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:16:01.715 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - 200 null application/json; charset=utf-8 5.8707ms
+2026-03-17 10:16:25.912 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5104/Account/Profile - application/x-www-form-urlencoded 287
+2026-03-17 10:16:25.916 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AccountController.Profile (PrisonerPortal)'
+2026-03-17 10:16:25.928 +05:30 [INF] Route matched with {action = "Profile", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Profile(PrisonerPortal.Models.ViewModels.UserProfileViewModel) on controller PrisonerPortal.Controllers.AccountController (PrisonerPortal).
+2026-03-17 10:16:25.933 +05:30 [INF] Executing ViewResult, running view Profile.
+2026-03-17 10:16:25.938 +05:30 [INF] Executed ViewResult - view Profile executed in 4.6375ms.
+2026-03-17 10:16:25.938 +05:30 [INF] Executed action PrisonerPortal.Controllers.AccountController.Profile (PrisonerPortal) in 9.9781ms
+2026-03-17 10:16:25.938 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AccountController.Profile (PrisonerPortal)'
+2026-03-17 10:16:25.938 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5104/Account/Profile - 200 null text/html; charset=utf-8 26.098ms
+2026-03-17 10:16:25.964 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - null null
+2026-03-17 10:16:25.965 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:16:25.965 +05:30 [INF] Route matched with {action = "GetUnreadCount", controller = "Notifications"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetUnreadCount() on controller PrisonerPortal.Controllers.NotificationsController (PrisonerPortal).
+2026-03-17 10:16:25.969 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Notifications] AS [n]
+WHERE [n].[UserId] = @__userId_0 AND [n].[IsRead] = CAST(0 AS bit)
+2026-03-17 10:16:25.970 +05:30 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-17 10:16:25.971 +05:30 [INF] Executed action PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal) in 5.869ms
+2026-03-17 10:16:25.971 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:16:25.971 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - 200 null application/json; charset=utf-8 7.4086ms
+2026-03-17 10:16:46.923 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5104/Account/Profile - application/x-www-form-urlencoded 306
+2026-03-17 10:16:46.924 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AccountController.Profile (PrisonerPortal)'
+2026-03-17 10:16:46.924 +05:30 [INF] Route matched with {action = "Profile", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Profile(PrisonerPortal.Models.ViewModels.UserProfileViewModel) on controller PrisonerPortal.Controllers.AccountController (PrisonerPortal).
+2026-03-17 10:16:46.931 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[Id] = @__p_0
+2026-03-17 10:16:46.941 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedUserName_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2026-03-17 10:16:46.948 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedEmail_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:16:46.972 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@p19='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p0='0', @p1='Tihad Jail, Delhi' (Size = 500), @p2='9851a284-4479-4133-9abc-e692b2b92f19' (Size = 4000), @p20='87d522c5-cdd4-49f1-9d29-a79292024d50' (Size = 4000), @p3='2026-03-17T04:34:05.8960384', @p4='admin@prisonerportal.gov' (Size = 256), @p5='True', @p6='System Administrator' (Nullable = false) (Size = 150), @p7='True', @p8='True', @p9=NULL (DbType = DateTimeOffset), @p10='ADMIN@PRISONERPORTAL.GOV' (Size = 256), @p11='ADMIN@PRISONERPORTAL.GOV' (Size = 256), @p12='AQAAAAIAAYagAAAAEOJ7Tox6QZL1Wh9+JkAHu/ASG21Ur6T9mBePA37Y/oF4g3k3pixvL8izlbS5J9DUmQ==' (Size = 4000), @p13='8810887568' (Size = 4000), @p14='False', @p15='Family' (Nullable = false) (Size = 4000), @p16='EN7VTC3AHXS3LHBD7KSEN3HQU3I5OJGL' (Size = 4000), @p17='False', @p18='admin@prisonerportal.gov' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [AspNetUsers] SET [AccessFailedCount] = @p0, [Address] = @p1, [ConcurrencyStamp] = @p2, [CreatedAt] = @p3, [Email] = @p4, [EmailConfirmed] = @p5, [FullName] = @p6, [IsActive] = @p7, [LockoutEnabled] = @p8, [LockoutEnd] = @p9, [NormalizedEmail] = @p10, [NormalizedUserName] = @p11, [PasswordHash] = @p12, [PhoneNumber] = @p13, [PhoneNumberConfirmed] = @p14, [Role] = @p15, [SecurityStamp] = @p16, [TwoFactorEnabled] = @p17, [UserName] = @p18
+OUTPUT 1
+WHERE [Id] = @p19 AND [ConcurrencyStamp] = @p20;
+2026-03-17 10:16:46.976 +05:30 [INF] Executing RedirectResult, redirecting to /Account/Profile.
+2026-03-17 10:16:47.001 +05:30 [INF] Executed action PrisonerPortal.Controllers.AccountController.Profile (PrisonerPortal) in 76.6756ms
+2026-03-17 10:16:47.001 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AccountController.Profile (PrisonerPortal)'
+2026-03-17 10:16:47.001 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5104/Account/Profile - 302 0 null 78.2891ms
+2026-03-17 10:16:47.005 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Account/Profile - null null
+2026-03-17 10:16:47.005 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AccountController.Profile (PrisonerPortal)'
+2026-03-17 10:16:47.005 +05:30 [INF] Route matched with {action = "Profile", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Profile() on controller PrisonerPortal.Controllers.AccountController (PrisonerPortal).
+2026-03-17 10:16:47.007 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[Id] = @__p_0
+2026-03-17 10:16:47.008 +05:30 [INF] Executing ViewResult, running view Profile.
+2026-03-17 10:16:47.031 +05:30 [INF] Executed ViewResult - view Profile executed in 23.566ms.
+2026-03-17 10:16:47.031 +05:30 [INF] Executed action PrisonerPortal.Controllers.AccountController.Profile (PrisonerPortal) in 25.8348ms
+2026-03-17 10:16:47.031 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AccountController.Profile (PrisonerPortal)'
+2026-03-17 10:16:47.031 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Account/Profile - 200 null text/html; charset=utf-8 26.8409ms
+2026-03-17 10:16:47.065 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - null null
+2026-03-17 10:16:47.066 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:16:47.066 +05:30 [INF] Route matched with {action = "GetUnreadCount", controller = "Notifications"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetUnreadCount() on controller PrisonerPortal.Controllers.NotificationsController (PrisonerPortal).
+2026-03-17 10:16:47.068 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Notifications] AS [n]
+WHERE [n].[UserId] = @__userId_0 AND [n].[IsRead] = CAST(0 AS bit)
+2026-03-17 10:16:47.069 +05:30 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-17 10:16:47.069 +05:30 [INF] Executed action PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal) in 2.3523ms
+2026-03-17 10:16:47.069 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:16:47.069 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - 200 null application/json; charset=utf-8 3.9305ms
+2026-03-17 10:16:50.421 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Admin/Requests - null null
+2026-03-17 10:16:50.422 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AdminController.Requests (PrisonerPortal)'
+2026-03-17 10:16:50.439 +05:30 [INF] Route matched with {action = "Requests", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Requests() on controller PrisonerPortal.Controllers.AdminController (PrisonerPortal).
+2026-03-17 10:16:50.492 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[RequestId], [s].[AdminResponse], [s].[AssignedAdminId], [s].[Category], [s].[CreatedAt], [s].[Description], [s].[Priority], [s].[PrisonerId], [s].[RequestCode], [s].[ResolvedAt], [s].[Status], [s].[Subject], [s].[UpdatedAt], [s].[UserId], [p].[PrisonerId], [p].[CaseNumber], [p].[CellBlock], [p].[CellNumber], [p].[CreatedAt], [p].[CrimeCategory], [p].[DateOfBirth], [p].[FullName], [p].[Gender], [p].[PrisonerCode], [p].[SentenceEndDate], [p].[SentenceStartDate], [p].[Status], [p].[UpdatedAt], [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [a0].[Id], [a0].[AccessFailedCount], [a0].[Address], [a0].[ConcurrencyStamp], [a0].[CreatedAt], [a0].[Email], [a0].[EmailConfirmed], [a0].[FullName], [a0].[IsActive], [a0].[LockoutEnabled], [a0].[LockoutEnd], [a0].[NormalizedEmail], [a0].[NormalizedUserName], [a0].[PasswordHash], [a0].[PhoneNumber], [a0].[PhoneNumberConfirmed], [a0].[Role], [a0].[SecurityStamp], [a0].[TwoFactorEnabled], [a0].[UserName]
+FROM [SupportRequests] AS [s]
+INNER JOIN [Prisoners] AS [p] ON [s].[PrisonerId] = [p].[PrisonerId]
+INNER JOIN [AspNetUsers] AS [a] ON [s].[UserId] = [a].[Id]
+LEFT JOIN [AspNetUsers] AS [a0] ON [s].[AssignedAdminId] = [a0].[Id]
+ORDER BY [s].[CreatedAt] DESC
+2026-03-17 10:16:50.756 +05:30 [INF] Executing ViewResult, running view Requests.
+2026-03-17 10:16:50.778 +05:30 [INF] Executed ViewResult - view Requests executed in 285.0039ms.
+2026-03-17 10:16:50.778 +05:30 [INF] Executed action PrisonerPortal.Controllers.AdminController.Requests (PrisonerPortal) in 338.8892ms
+2026-03-17 10:16:50.778 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AdminController.Requests (PrisonerPortal)'
+2026-03-17 10:16:50.779 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Admin/Requests - 200 null text/html; charset=utf-8 357.515ms
+2026-03-17 10:16:50.807 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - null null
+2026-03-17 10:16:50.809 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:16:50.809 +05:30 [INF] Route matched with {action = "GetUnreadCount", controller = "Notifications"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetUnreadCount() on controller PrisonerPortal.Controllers.NotificationsController (PrisonerPortal).
+2026-03-17 10:16:50.811 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Notifications] AS [n]
+WHERE [n].[UserId] = @__userId_0 AND [n].[IsRead] = CAST(0 AS bit)
+2026-03-17 10:16:50.812 +05:30 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-17 10:16:50.812 +05:30 [INF] Executed action PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal) in 2.4492ms
+2026-03-17 10:16:50.812 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:16:50.812 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - 200 null application/json; charset=utf-8 5.1137ms
+2026-03-17 10:16:53.003 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Admin/Appointments - null null
+2026-03-17 10:16:53.005 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AdminController.Appointments (PrisonerPortal)'
+2026-03-17 10:16:53.021 +05:30 [INF] Route matched with {action = "Appointments", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Appointments() on controller PrisonerPortal.Controllers.AdminController (PrisonerPortal).
+2026-03-17 10:16:53.069 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[AppointmentId], [a].[AdminNotes], [a].[AppointmentCode], [a].[BookedAt], [a].[NumVisitors], [a].[PrisonerId], [a].[Purpose], [a].[RejectionReason], [a].[SlotId], [a].[Status], [a].[UpdatedAt], [a].[UserId], [a].[VisitorNames], [p].[PrisonerId], [p].[CaseNumber], [p].[CellBlock], [p].[CellNumber], [p].[CreatedAt], [p].[CrimeCategory], [p].[DateOfBirth], [p].[FullName], [p].[Gender], [p].[PrisonerCode], [p].[SentenceEndDate], [p].[SentenceStartDate], [p].[Status], [p].[UpdatedAt], [v].[SlotId], [v].[CreatedAt], [v].[CreatedByAdminId], [v].[CurrentBookings], [v].[EndTime], [v].[IsActive], [v].[MaxCapacity], [v].[SlotDate], [v].[StartTime], [a0].[Id], [a0].[AccessFailedCount], [a0].[Address], [a0].[ConcurrencyStamp], [a0].[CreatedAt], [a0].[Email], [a0].[EmailConfirmed], [a0].[FullName], [a0].[IsActive], [a0].[LockoutEnabled], [a0].[LockoutEnd], [a0].[NormalizedEmail], [a0].[NormalizedUserName], [a0].[PasswordHash], [a0].[PhoneNumber], [a0].[PhoneNumberConfirmed], [a0].[Role], [a0].[SecurityStamp], [a0].[TwoFactorEnabled], [a0].[UserName]
+FROM [Appointments] AS [a]
+INNER JOIN [Prisoners] AS [p] ON [a].[PrisonerId] = [p].[PrisonerId]
+INNER JOIN [VisitSlots] AS [v] ON [a].[SlotId] = [v].[SlotId]
+INNER JOIN [AspNetUsers] AS [a0] ON [a].[UserId] = [a0].[Id]
+ORDER BY [a].[BookedAt] DESC
+2026-03-17 10:16:53.268 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Admin/Appointments - null null
+2026-03-17 10:16:53.269 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AdminController.Appointments (PrisonerPortal)'
+2026-03-17 10:16:53.269 +05:30 [INF] Route matched with {action = "Appointments", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Appointments() on controller PrisonerPortal.Controllers.AdminController (PrisonerPortal).
+2026-03-17 10:16:53.273 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[AppointmentId], [a].[AdminNotes], [a].[AppointmentCode], [a].[BookedAt], [a].[NumVisitors], [a].[PrisonerId], [a].[Purpose], [a].[RejectionReason], [a].[SlotId], [a].[Status], [a].[UpdatedAt], [a].[UserId], [a].[VisitorNames], [p].[PrisonerId], [p].[CaseNumber], [p].[CellBlock], [p].[CellNumber], [p].[CreatedAt], [p].[CrimeCategory], [p].[DateOfBirth], [p].[FullName], [p].[Gender], [p].[PrisonerCode], [p].[SentenceEndDate], [p].[SentenceStartDate], [p].[Status], [p].[UpdatedAt], [v].[SlotId], [v].[CreatedAt], [v].[CreatedByAdminId], [v].[CurrentBookings], [v].[EndTime], [v].[IsActive], [v].[MaxCapacity], [v].[SlotDate], [v].[StartTime], [a0].[Id], [a0].[AccessFailedCount], [a0].[Address], [a0].[ConcurrencyStamp], [a0].[CreatedAt], [a0].[Email], [a0].[EmailConfirmed], [a0].[FullName], [a0].[IsActive], [a0].[LockoutEnabled], [a0].[LockoutEnd], [a0].[NormalizedEmail], [a0].[NormalizedUserName], [a0].[PasswordHash], [a0].[PhoneNumber], [a0].[PhoneNumberConfirmed], [a0].[Role], [a0].[SecurityStamp], [a0].[TwoFactorEnabled], [a0].[UserName]
+FROM [Appointments] AS [a]
+INNER JOIN [Prisoners] AS [p] ON [a].[PrisonerId] = [p].[PrisonerId]
+INNER JOIN [VisitSlots] AS [v] ON [a].[SlotId] = [v].[SlotId]
+INNER JOIN [AspNetUsers] AS [a0] ON [a].[UserId] = [a0].[Id]
+ORDER BY [a].[BookedAt] DESC
+2026-03-17 10:16:53.378 +05:30 [INF] Executing ViewResult, running view Appointments.
+2026-03-17 10:16:53.378 +05:30 [INF] Executing ViewResult, running view Appointments.
+2026-03-17 10:16:53.396 +05:30 [INF] Executed ViewResult - view Appointments executed in 325.1296ms.
+2026-03-17 10:16:53.396 +05:30 [INF] Executed ViewResult - view Appointments executed in 122.327ms.
+2026-03-17 10:16:53.396 +05:30 [INF] Executed action PrisonerPortal.Controllers.AdminController.Appointments (PrisonerPortal) in 375.0605ms
+2026-03-17 10:16:53.396 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AdminController.Appointments (PrisonerPortal)'
+2026-03-17 10:16:53.396 +05:30 [INF] Executed action PrisonerPortal.Controllers.AdminController.Appointments (PrisonerPortal) in 126.6793ms
+2026-03-17 10:16:53.396 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AdminController.Appointments (PrisonerPortal)'
+2026-03-17 10:16:53.396 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Admin/Appointments - 200 null text/html; charset=utf-8 392.8722ms
+2026-03-17 10:16:53.396 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Admin/Appointments - 200 null text/html; charset=utf-8 128.5443ms
+2026-03-17 10:16:53.424 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - null null
+2026-03-17 10:16:53.425 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:16:53.425 +05:30 [INF] Route matched with {action = "GetUnreadCount", controller = "Notifications"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetUnreadCount() on controller PrisonerPortal.Controllers.NotificationsController (PrisonerPortal).
+2026-03-17 10:16:53.427 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Notifications] AS [n]
+WHERE [n].[UserId] = @__userId_0 AND [n].[IsRead] = CAST(0 AS bit)
+2026-03-17 10:16:53.427 +05:30 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-17 10:16:53.428 +05:30 [INF] Executed action PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal) in 2.3025ms
+2026-03-17 10:16:53.428 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:16:53.428 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - 200 null application/json; charset=utf-8 3.7626ms
+2026-03-17 10:16:59.130 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Admin/VisitSlots - null null
+2026-03-17 10:16:59.131 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AdminController.VisitSlots (PrisonerPortal)'
+2026-03-17 10:16:59.140 +05:30 [INF] Route matched with {action = "VisitSlots", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] VisitSlots() on controller PrisonerPortal.Controllers.AdminController (PrisonerPortal).
+2026-03-17 10:16:59.182 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [v].[SlotId], [v].[CreatedAt], [v].[CreatedByAdminId], [v].[CurrentBookings], [v].[EndTime], [v].[IsActive], [v].[MaxCapacity], [v].[SlotDate], [v].[StartTime], [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [VisitSlots] AS [v]
+INNER JOIN [AspNetUsers] AS [a] ON [v].[CreatedByAdminId] = [a].[Id]
+WHERE [v].[SlotDate] >= DATEADD(day, CAST(-7.0E0 AS int), CONVERT(date, GETUTCDATE()))
+ORDER BY [v].[SlotDate] DESC, [v].[StartTime]
+2026-03-17 10:16:59.414 +05:30 [INF] Executing ViewResult, running view VisitSlots.
+2026-03-17 10:16:59.428 +05:30 [INF] Executed ViewResult - view VisitSlots executed in 174.4201ms.
+2026-03-17 10:16:59.428 +05:30 [INF] Executed action PrisonerPortal.Controllers.AdminController.VisitSlots (PrisonerPortal) in 287.9004ms
+2026-03-17 10:16:59.428 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AdminController.VisitSlots (PrisonerPortal)'
+2026-03-17 10:16:59.428 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Admin/VisitSlots - 200 null text/html; charset=utf-8 298.1948ms
+2026-03-17 10:16:59.456 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - null null
+2026-03-17 10:16:59.457 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:16:59.457 +05:30 [INF] Route matched with {action = "GetUnreadCount", controller = "Notifications"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetUnreadCount() on controller PrisonerPortal.Controllers.NotificationsController (PrisonerPortal).
+2026-03-17 10:16:59.459 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Notifications] AS [n]
+WHERE [n].[UserId] = @__userId_0 AND [n].[IsRead] = CAST(0 AS bit)
+2026-03-17 10:16:59.459 +05:30 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-17 10:16:59.460 +05:30 [INF] Executed action PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal) in 2.5793ms
+2026-03-17 10:16:59.460 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:16:59.460 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - 200 null application/json; charset=utf-8 3.7248ms
+2026-03-17 10:17:04.391 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Admin/Prisoners - null null
+2026-03-17 10:17:04.392 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AdminController.Prisoners (PrisonerPortal)'
+2026-03-17 10:17:04.401 +05:30 [INF] Route matched with {action = "Prisoners", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Prisoners() on controller PrisonerPortal.Controllers.AdminController (PrisonerPortal).
+2026-03-17 10:17:04.412 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PrisonerId], [p].[CaseNumber], [p].[CellBlock], [p].[CellNumber], [p].[CreatedAt], [p].[CrimeCategory], [p].[DateOfBirth], [p].[FullName], [p].[Gender], [p].[PrisonerCode], [p].[SentenceEndDate], [p].[SentenceStartDate], [p].[Status], [p].[UpdatedAt]
+FROM [Prisoners] AS [p]
+ORDER BY [p].[FullName]
+2026-03-17 10:17:04.590 +05:30 [INF] Executing ViewResult, running view Prisoners.
+2026-03-17 10:17:04.606 +05:30 [INF] Executed ViewResult - view Prisoners executed in 150.7112ms.
+2026-03-17 10:17:04.606 +05:30 [INF] Executed action PrisonerPortal.Controllers.AdminController.Prisoners (PrisonerPortal) in 205.2229ms
+2026-03-17 10:17:04.606 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AdminController.Prisoners (PrisonerPortal)'
+2026-03-17 10:17:04.606 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Admin/Prisoners - 200 null text/html; charset=utf-8 214.927ms
+2026-03-17 10:17:04.664 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - null null
+2026-03-17 10:17:04.665 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:17:04.665 +05:30 [INF] Route matched with {action = "GetUnreadCount", controller = "Notifications"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetUnreadCount() on controller PrisonerPortal.Controllers.NotificationsController (PrisonerPortal).
+2026-03-17 10:17:04.667 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Notifications] AS [n]
+WHERE [n].[UserId] = @__userId_0 AND [n].[IsRead] = CAST(0 AS bit)
+2026-03-17 10:17:04.667 +05:30 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-17 10:17:04.667 +05:30 [INF] Executed action PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal) in 2.2101ms
+2026-03-17 10:17:04.667 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:17:04.667 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - 200 null application/json; charset=utf-8 3.3654ms
+2026-03-17 10:17:09.663 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Admin/ViewPrisoner/3 - null null
+2026-03-17 10:17:09.664 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AdminController.ViewPrisoner (PrisonerPortal)'
+2026-03-17 10:17:09.667 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Admin/ViewPrisoner/3 - null null
+2026-03-17 10:17:09.667 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AdminController.ViewPrisoner (PrisonerPortal)'
+2026-03-17 10:17:09.674 +05:30 [INF] Route matched with {action = "ViewPrisoner", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ViewPrisoner(Int32) on controller PrisonerPortal.Controllers.AdminController (PrisonerPortal).
+2026-03-17 10:17:09.677 +05:30 [INF] Route matched with {action = "ViewPrisoner", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ViewPrisoner(Int32) on controller PrisonerPortal.Controllers.AdminController (PrisonerPortal).
+2026-03-17 10:17:09.752 +05:30 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-03-17 10:17:09.783 +05:30 [INF] Executed DbCommand (22ms) [Parameters=[@__id_0='3'], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[PrisonerId], [t].[CaseNumber], [t].[CellBlock], [t].[CellNumber], [t].[CreatedAt], [t].[CrimeCategory], [t].[DateOfBirth], [t].[FullName], [t].[Gender], [t].[PrisonerCode], [t].[SentenceEndDate], [t].[SentenceStartDate], [t].[Status], [t].[UpdatedAt], [t0].[LinkId], [t0].[IsVerified], [t0].[LinkedAt], [t0].[PrisonerId], [t0].[Relationship], [t0].[UserId], [t0].[VerifiedByAdminId], [t0].[Id], [t0].[AccessFailedCount], [t0].[Address], [t0].[ConcurrencyStamp], [t0].[CreatedAt], [t0].[Email], [t0].[EmailConfirmed], [t0].[FullName], [t0].[IsActive], [t0].[LockoutEnabled], [t0].[LockoutEnd], [t0].[NormalizedEmail], [t0].[NormalizedUserName], [t0].[PasswordHash], [t0].[PhoneNumber], [t0].[PhoneNumberConfirmed], [t0].[Role], [t0].[SecurityStamp], [t0].[TwoFactorEnabled], [t0].[UserName], [t1].[AppointmentId], [t1].[AdminNotes], [t1].[AppointmentCode], [t1].[BookedAt], [t1].[NumVisitors], [t1].[PrisonerId], [t1].[Purpose], [t1].[RejectionReason], [t1].[SlotId], [t1].[Status], [t1].[UpdatedAt], [t1].[UserId], [t1].[VisitorNames], [t1].[Id], [t1].[AccessFailedCount], [t1].[Address], [t1].[ConcurrencyStamp], [t1].[CreatedAt], [t1].[Email], [t1].[EmailConfirmed], [t1].[FullName], [t1].[IsActive], [t1].[LockoutEnabled], [t1].[LockoutEnd], [t1].[NormalizedEmail], [t1].[NormalizedUserName], [t1].[PasswordHash], [t1].[PhoneNumber], [t1].[PhoneNumberConfirmed], [t1].[Role], [t1].[SecurityStamp], [t1].[TwoFactorEnabled], [t1].[UserName], [s].[RequestId], [s].[AdminResponse], [s].[AssignedAdminId], [s].[Category], [s].[CreatedAt], [s].[Description], [s].[Priority], [s].[PrisonerId], [s].[RequestCode], [s].[ResolvedAt], [s].[Status], [s].[Subject], [s].[UpdatedAt], [s].[UserId]
+FROM (
+    SELECT TOP(1) [p].[PrisonerId], [p].[CaseNumber], [p].[CellBlock], [p].[CellNumber], [p].[CreatedAt], [p].[CrimeCategory], [p].[DateOfBirth], [p].[FullName], [p].[Gender], [p].[PrisonerCode], [p].[SentenceEndDate], [p].[SentenceStartDate], [p].[Status], [p].[UpdatedAt]
+    FROM [Prisoners] AS [p]
+    WHERE [p].[PrisonerId] = @__id_0
+) AS [t]
+LEFT JOIN (
+    SELECT [f].[LinkId], [f].[IsVerified], [f].[LinkedAt], [f].[PrisonerId], [f].[Relationship], [f].[UserId], [f].[VerifiedByAdminId], [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+    FROM [FamilyPrisonerLinks] AS [f]
+    INNER JOIN [AspNetUsers] AS [a] ON [f].[UserId] = [a].[Id]
+) AS [t0] ON [t].[PrisonerId] = [t0].[PrisonerId]
+LEFT JOIN (
+    SELECT [a0].[AppointmentId], [a0].[AdminNotes], [a0].[AppointmentCode], [a0].[BookedAt], [a0].[NumVisitors], [a0].[PrisonerId], [a0].[Purpose], [a0].[RejectionReason], [a0].[SlotId], [a0].[Status], [a0].[UpdatedAt], [a0].[UserId], [a0].[VisitorNames], [a1].[Id], [a1].[AccessFailedCount], [a1].[Address], [a1].[ConcurrencyStamp], [a1].[CreatedAt], [a1].[Email], [a1].[EmailConfirmed], [a1].[FullName], [a1].[IsActive], [a1].[LockoutEnabled], [a1].[LockoutEnd], [a1].[NormalizedEmail], [a1].[NormalizedUserName], [a1].[PasswordHash], [a1].[PhoneNumber], [a1].[PhoneNumberConfirmed], [a1].[Role], [a1].[SecurityStamp], [a1].[TwoFactorEnabled], [a1].[UserName]
+    FROM [Appointments] AS [a0]
+    INNER JOIN [AspNetUsers] AS [a1] ON [a0].[UserId] = [a1].[Id]
+) AS [t1] ON [t].[PrisonerId] = [t1].[PrisonerId]
+LEFT JOIN [SupportRequests] AS [s] ON [t].[PrisonerId] = [s].[PrisonerId]
+ORDER BY [t].[PrisonerId], [t0].[LinkId], [t0].[Id], [t1].[AppointmentId], [t1].[Id]
+2026-03-17 10:17:09.784 +05:30 [INF] Executed DbCommand (15ms) [Parameters=[@__id_0='3'], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[PrisonerId], [t].[CaseNumber], [t].[CellBlock], [t].[CellNumber], [t].[CreatedAt], [t].[CrimeCategory], [t].[DateOfBirth], [t].[FullName], [t].[Gender], [t].[PrisonerCode], [t].[SentenceEndDate], [t].[SentenceStartDate], [t].[Status], [t].[UpdatedAt], [t0].[LinkId], [t0].[IsVerified], [t0].[LinkedAt], [t0].[PrisonerId], [t0].[Relationship], [t0].[UserId], [t0].[VerifiedByAdminId], [t0].[Id], [t0].[AccessFailedCount], [t0].[Address], [t0].[ConcurrencyStamp], [t0].[CreatedAt], [t0].[Email], [t0].[EmailConfirmed], [t0].[FullName], [t0].[IsActive], [t0].[LockoutEnabled], [t0].[LockoutEnd], [t0].[NormalizedEmail], [t0].[NormalizedUserName], [t0].[PasswordHash], [t0].[PhoneNumber], [t0].[PhoneNumberConfirmed], [t0].[Role], [t0].[SecurityStamp], [t0].[TwoFactorEnabled], [t0].[UserName], [t1].[AppointmentId], [t1].[AdminNotes], [t1].[AppointmentCode], [t1].[BookedAt], [t1].[NumVisitors], [t1].[PrisonerId], [t1].[Purpose], [t1].[RejectionReason], [t1].[SlotId], [t1].[Status], [t1].[UpdatedAt], [t1].[UserId], [t1].[VisitorNames], [t1].[Id], [t1].[AccessFailedCount], [t1].[Address], [t1].[ConcurrencyStamp], [t1].[CreatedAt], [t1].[Email], [t1].[EmailConfirmed], [t1].[FullName], [t1].[IsActive], [t1].[LockoutEnabled], [t1].[LockoutEnd], [t1].[NormalizedEmail], [t1].[NormalizedUserName], [t1].[PasswordHash], [t1].[PhoneNumber], [t1].[PhoneNumberConfirmed], [t1].[Role], [t1].[SecurityStamp], [t1].[TwoFactorEnabled], [t1].[UserName], [s].[RequestId], [s].[AdminResponse], [s].[AssignedAdminId], [s].[Category], [s].[CreatedAt], [s].[Description], [s].[Priority], [s].[PrisonerId], [s].[RequestCode], [s].[ResolvedAt], [s].[Status], [s].[Subject], [s].[UpdatedAt], [s].[UserId]
+FROM (
+    SELECT TOP(1) [p].[PrisonerId], [p].[CaseNumber], [p].[CellBlock], [p].[CellNumber], [p].[CreatedAt], [p].[CrimeCategory], [p].[DateOfBirth], [p].[FullName], [p].[Gender], [p].[PrisonerCode], [p].[SentenceEndDate], [p].[SentenceStartDate], [p].[Status], [p].[UpdatedAt]
+    FROM [Prisoners] AS [p]
+    WHERE [p].[PrisonerId] = @__id_0
+) AS [t]
+LEFT JOIN (
+    SELECT [f].[LinkId], [f].[IsVerified], [f].[LinkedAt], [f].[PrisonerId], [f].[Relationship], [f].[UserId], [f].[VerifiedByAdminId], [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+    FROM [FamilyPrisonerLinks] AS [f]
+    INNER JOIN [AspNetUsers] AS [a] ON [f].[UserId] = [a].[Id]
+) AS [t0] ON [t].[PrisonerId] = [t0].[PrisonerId]
+LEFT JOIN (
+    SELECT [a0].[AppointmentId], [a0].[AdminNotes], [a0].[AppointmentCode], [a0].[BookedAt], [a0].[NumVisitors], [a0].[PrisonerId], [a0].[Purpose], [a0].[RejectionReason], [a0].[SlotId], [a0].[Status], [a0].[UpdatedAt], [a0].[UserId], [a0].[VisitorNames], [a1].[Id], [a1].[AccessFailedCount], [a1].[Address], [a1].[ConcurrencyStamp], [a1].[CreatedAt], [a1].[Email], [a1].[EmailConfirmed], [a1].[FullName], [a1].[IsActive], [a1].[LockoutEnabled], [a1].[LockoutEnd], [a1].[NormalizedEmail], [a1].[NormalizedUserName], [a1].[PasswordHash], [a1].[PhoneNumber], [a1].[PhoneNumberConfirmed], [a1].[Role], [a1].[SecurityStamp], [a1].[TwoFactorEnabled], [a1].[UserName]
+    FROM [Appointments] AS [a0]
+    INNER JOIN [AspNetUsers] AS [a1] ON [a0].[UserId] = [a1].[Id]
+) AS [t1] ON [t].[PrisonerId] = [t1].[PrisonerId]
+LEFT JOIN [SupportRequests] AS [s] ON [t].[PrisonerId] = [s].[PrisonerId]
+ORDER BY [t].[PrisonerId], [t0].[LinkId], [t0].[Id], [t1].[AppointmentId], [t1].[Id]
+2026-03-17 10:17:09.923 +05:30 [INF] Executing ViewResult, running view ViewPrisoner.
+2026-03-17 10:17:09.923 +05:30 [INF] Executing ViewResult, running view ViewPrisoner.
+2026-03-17 10:17:09.937 +05:30 [INF] Executed ViewResult - view ViewPrisoner executed in 148.8861ms.
+2026-03-17 10:17:09.937 +05:30 [INF] Executed ViewResult - view ViewPrisoner executed in 149.4978ms.
+2026-03-17 10:17:09.937 +05:30 [INF] Executed action PrisonerPortal.Controllers.AdminController.ViewPrisoner (PrisonerPortal) in 263.0668ms
+2026-03-17 10:17:09.937 +05:30 [INF] Executed action PrisonerPortal.Controllers.AdminController.ViewPrisoner (PrisonerPortal) in 259.9928ms
+2026-03-17 10:17:09.937 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AdminController.ViewPrisoner (PrisonerPortal)'
+2026-03-17 10:17:09.937 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AdminController.ViewPrisoner (PrisonerPortal)'
+2026-03-17 10:17:09.937 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Admin/ViewPrisoner/3 - 200 null text/html; charset=utf-8 270.2441ms
+2026-03-17 10:17:09.937 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Admin/ViewPrisoner/3 - 200 null text/html; charset=utf-8 273.6759ms
+2026-03-17 10:17:09.967 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - null null
+2026-03-17 10:17:09.968 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:17:09.968 +05:30 [INF] Route matched with {action = "GetUnreadCount", controller = "Notifications"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetUnreadCount() on controller PrisonerPortal.Controllers.NotificationsController (PrisonerPortal).
+2026-03-17 10:17:09.972 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Notifications] AS [n]
+WHERE [n].[UserId] = @__userId_0 AND [n].[IsRead] = CAST(0 AS bit)
+2026-03-17 10:17:09.972 +05:30 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-17 10:17:09.973 +05:30 [INF] Executed action PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal) in 4.9233ms
+2026-03-17 10:17:09.973 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:17:09.973 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - 200 null application/json; charset=utf-8 6.1031ms
+2026-03-17 10:17:18.273 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Admin/Prisoners - null null
+2026-03-17 10:17:18.274 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AdminController.Prisoners (PrisonerPortal)'
+2026-03-17 10:17:18.274 +05:30 [INF] Route matched with {action = "Prisoners", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Prisoners() on controller PrisonerPortal.Controllers.AdminController (PrisonerPortal).
+2026-03-17 10:17:18.279 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PrisonerId], [p].[CaseNumber], [p].[CellBlock], [p].[CellNumber], [p].[CreatedAt], [p].[CrimeCategory], [p].[DateOfBirth], [p].[FullName], [p].[Gender], [p].[PrisonerCode], [p].[SentenceEndDate], [p].[SentenceStartDate], [p].[Status], [p].[UpdatedAt]
+FROM [Prisoners] AS [p]
+ORDER BY [p].[FullName]
+2026-03-17 10:17:18.280 +05:30 [INF] Executing ViewResult, running view Prisoners.
+2026-03-17 10:17:18.282 +05:30 [INF] Executed ViewResult - view Prisoners executed in 2.7474ms.
+2026-03-17 10:17:18.283 +05:30 [INF] Executed action PrisonerPortal.Controllers.AdminController.Prisoners (PrisonerPortal) in 8.0165ms
+2026-03-17 10:17:18.283 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AdminController.Prisoners (PrisonerPortal)'
+2026-03-17 10:17:18.283 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Admin/Prisoners - 200 null text/html; charset=utf-8 9.96ms
+2026-03-17 10:17:18.308 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - null null
+2026-03-17 10:17:18.309 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:17:18.309 +05:30 [INF] Route matched with {action = "GetUnreadCount", controller = "Notifications"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetUnreadCount() on controller PrisonerPortal.Controllers.NotificationsController (PrisonerPortal).
+2026-03-17 10:17:18.313 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Notifications] AS [n]
+WHERE [n].[UserId] = @__userId_0 AND [n].[IsRead] = CAST(0 AS bit)
+2026-03-17 10:17:18.313 +05:30 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-17 10:17:18.313 +05:30 [INF] Executed action PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal) in 3.8415ms
+2026-03-17 10:17:18.313 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:17:18.313 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - 200 null application/json; charset=utf-8 5.0048ms
+2026-03-17 10:17:21.741 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Admin/Users - null null
+2026-03-17 10:17:21.742 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.AdminController.Users (PrisonerPortal)'
+2026-03-17 10:17:21.742 +05:30 [INF] Route matched with {action = "Users", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Users(System.String, System.String) on controller PrisonerPortal.Controllers.AdminController (PrisonerPortal).
+2026-03-17 10:17:21.748 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+ORDER BY [a].[CreatedAt] DESC
+2026-03-17 10:17:21.749 +05:30 [INF] Executing ViewResult, running view Users.
+2026-03-17 10:17:21.752 +05:30 [INF] Executed ViewResult - view Users executed in 3.4058ms.
+2026-03-17 10:17:21.753 +05:30 [INF] Executed action PrisonerPortal.Controllers.AdminController.Users (PrisonerPortal) in 10.4246ms
+2026-03-17 10:17:21.753 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.AdminController.Users (PrisonerPortal)'
+2026-03-17 10:17:21.753 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Admin/Users - 200 null text/html; charset=utf-8 12.3605ms
+2026-03-17 10:17:21.774 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - null null
+2026-03-17 10:17:21.775 +05:30 [INF] Executing endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:17:21.775 +05:30 [INF] Route matched with {action = "GetUnreadCount", controller = "Notifications"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult GetUnreadCount() on controller PrisonerPortal.Controllers.NotificationsController (PrisonerPortal).
+2026-03-17 10:17:21.777 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Notifications] AS [n]
+WHERE [n].[UserId] = @__userId_0 AND [n].[IsRead] = CAST(0 AS bit)
+2026-03-17 10:17:21.777 +05:30 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`1[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-03-17 10:17:21.777 +05:30 [INF] Executed action PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal) in 1.7332ms
+2026-03-17 10:17:21.777 +05:30 [INF] Executed endpoint 'PrisonerPortal.Controllers.NotificationsController.GetUnreadCount (PrisonerPortal)'
+2026-03-17 10:17:21.777 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5104/Notifications/GetUnreadCount - 200 null application/json; charset=utf-8 2.9287ms

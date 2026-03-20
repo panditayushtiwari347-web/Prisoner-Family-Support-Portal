@@ -1,0 +1,244 @@
+@model PrisonerPortal.Models.ViewModels.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    var totalFamilies = Model?.TotalFamilies ?? 0;
+    var activePrisoners = Model?.TotalPrisoners ?? 0;
+    var todayVisits = Model?.TodaysVisits ?? 0;
+    var openRequests = Model?.OpenRequests ?? 0;
+    var pendingLinks = Model?.PendingLinks;
+}
+
+<!-- Stat Cards Row -->
+<div class="row g-4 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center mb-3">
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="ms-3">
+                    <h6 class="text-muted fw-bold mb-0">Total Families</h6>
+                </div>
+            </div>
+            <h2 class="font-serif fw-bold mb-0">@totalFamilies</h2>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center mb-3">
+                <div class="stat-icon bg-accent bg-opacity-10 text-accent">
+                    <i class="fa-solid fa-user-lock"></i>
+                </div>
+                <div class="ms-3">
+                    <h6 class="text-muted fw-bold mb-0">Active Prisoners</h6>
+                </div>
+            </div>
+            <h2 class="font-serif fw-bold mb-0">@activePrisoners</h2>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="d-flex align-items-center mb-3">
+                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <div class="ms-3">
+                    <h6 class="text-muted fw-bold mb-0">Today's Visits</h6>
+                </div>
+            </div>
+            <h2 class="font-serif fw-bold mb-0">@todayVisits</h2>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="stat-card border-danger border-start border-4">
+            <div class="d-flex align-items-center mb-3">
+                <div class="stat-icon bg-danger bg-opacity-10 text-danger">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <div class="ms-3">
+                    <h6 class="text-danger fw-bold mb-0">Open Requests</h6>
+                </div>
+            </div>
+            <h2 class="font-serif fw-bold mb-0">@openRequests</h2>
+            <div class="mt-2 text-danger small"><i class="fa-solid fa-arrow-up me-1"></i>Action needed</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-12 col-xl-8">
+        <!-- Tables inside card -->
+        <div class="card content-card p-0 overflow-hidden mb-4">
+            <div class="card-header bg-white p-4 border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold font-serif mb-0"><i class="fa-regular fa-clock text-accent me-2"></i> Pending Appointments</h5>
+                <a asp-action="Appointments" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-custom table-hover">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Family</th>
+                            <th>Prisoner</th>
+                            <th>Date/Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model?.PendingAppointments != null && Model.PendingAppointments.Any())
+                        {
+                            foreach (var app in Model.PendingAppointments)
+                            {
+                                <tr>
+                                    <td class="font-mono">@app.AppointmentCode</td>
+                                    <td>@app.User.FullName</td>
+                                    <td>@app.Prisoner.FullName</td>
+                                    <td>
+                                        <div class="fw-semibold">@app.Slot.SlotDate.ToString("MMM dd, yyyy")</div>
+                                        <small class="text-muted">@app.Slot.StartTime.ToString(@"hh\:mm") - @app.Slot.EndTime.ToString(@"hh\:mm")</small>
+                                    </td>
+                                    <td><span class="badge-status pending">Pending</span></td>
+                                    <td>
+                                        <form asp-action="ApproveAppointment" method="post" class="d-inline">
+                                            <input type="hidden" name="id" value="@app.AppointmentId" />
+                                            <button type="submit" class="btn btn-sm btn-success" data-bs-toggle="tooltip" title="Approve"><i class="fa-solid fa-check"></i></button>
+                                        </form>
+                                        <form asp-action="RejectAppointment" method="post" class="d-inline" onsubmit="return confirm('Reject this appointment?');">
+                                            <input type="hidden" name="id" value="@app.AppointmentId" />
+                                            <input type="hidden" name="reason" value="Capacity full / Admin decision" />
+                                            <button type="submit" class="btn btn-sm btn-danger ms-1" data-bs-toggle="tooltip" title="Reject"><i class="fa-solid fa-xmark"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6">
+                                    <div class="empty-state">
+                                        <i class="fa-solid fa-calendar-check empty-state-icon text-success opacity-50"></i>
+                                        <h6>No pending appointments.</h6>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card content-card p-0 overflow-hidden">
+            <div class="card-header bg-white p-4 border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold font-serif mb-0"><i class="fa-solid fa-inbox text-primary me-2"></i> Recent Support Requests</h5>
+                <a asp-action="Requests" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-custom table-hover">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Subject</th>
+                            <th>By</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model?.RecentRequests != null && Model.RecentRequests.Any())
+                        {
+                            foreach (var req in Model.RecentRequests)
+                            {
+                                <tr data-href="/Admin/RequestDetail/@req.RequestId" class="clickable">
+                                    <td class="font-mono text-primary">@req.RequestCode</td>
+                                    <td class="fw-semibold">@req.Subject<br/><small class="text-muted fw-normal">@req.Category</small></td>
+                                    <td>@req.User.FullName</td>
+                                    <td>
+                                        <span class="badge-status @req.Priority.ToLower()">@req.Priority</span>
+                                    </td>
+                                    <td>
+                                        @{
+                                            var statusClass = req.Status == "Open" ? "pending" : (req.Status == "Resolved" ? "completed" : "approved");
+                                        }
+                                        <span class="badge-status @statusClass">@req.Status</span>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5">
+                                    <div class="empty-state">
+                                        <i class="fa-solid fa-envelope-open empty-state-icon"></i>
+                                        <h6>No recent requests found.</h6>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 col-xl-4">
+        <!-- Family Verification -->
+        <div class="card content-card h-100 p-0 border-accent">
+            <div class="card-header bg-accent text-white p-4 border-0">
+                <h5 class="fw-bold font-serif mb-0"><i class="fa-solid fa-link me-2"></i> Link Verifications</h5>
+                <small class="text-white-50">Review family relationship claims</small>
+            </div>
+            <div class="card-body p-0">
+                @if (pendingLinks != null && pendingLinks.Any())
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach(var link in pendingLinks)
+                        {
+                            <li class="list-group-item p-4 border-bottom">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <h6 class="fw-bold mb-1">@link.User?.FullName</h6>
+                                        <p class="text-muted small mb-0"><i class="fa-solid fa-envelope me-1"></i> @link.User?.Email</p>
+                                    </div>
+                                    <span class="badge bg-light text-dark border"><i class="fa-regular fa-clock me-1"></i> Pending</span>
+                                </div>
+                                
+                                <div class="bg-surface p-3 rounded mb-3">
+                                    <div class="small text-muted text-uppercase fw-bold mb-1">Requests link to</div>
+                                    <div class="fw-semibold text-primary"><i class="fa-solid fa-user-lock me-2"></i> @link.Prisoner?.FullName</div>
+                                    <div class="font-mono small text-muted">Code: @link.Prisoner?.PrisonerCode</div>
+                                    <hr class="my-2 border-secondary opacity-25" />
+                                    <div class="d-flex justify-content-between">
+                                        <span class="small text-muted">Relationship:</span>
+                                        <span class="fw-bold">@link.Relationship</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex gap-2">
+                                    <form asp-action="VerifyLink" method="post" class="flex-grow-1">
+                                        <input type="hidden" name="id" value="@link.LinkId" />
+                                        <button type="submit" class="btn btn-success w-100 fw-bold"><i class="fa-solid fa-check me-2"></i> Verify</button>
+                                    </form>
+                                    <form asp-action="RejectLink" method="post" class="flex-grow-1" onsubmit="return confirm('Reject this link request? This action cannot be undone.');">
+                                        <input type="hidden" name="id" value="@link.LinkId" />
+                                        <button type="submit" class="btn btn-outline-danger w-100"><i class="fa-solid fa-xmark me-2"></i> Reject</button>
+                                    </form>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="empty-state p-5">
+                        <i class="fa-solid fa-shield-check empty-state-icon text-success" style="font-size: 3rem;"></i>
+                        <h5 class="fw-bold mt-3">All Caught Up!</h5>
+                        <p class="text-muted">There are no pending family link verifications at this time.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

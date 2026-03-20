@@ -1,0 +1,154 @@
+@model IEnumerable<PrisonerPortal.Models.Entities.FamilyPrisonerLink>
+@{
+    ViewData["Title"] = "Family-Prisoner Links";
+    var filter = ViewBag.Filter as string ?? "";
+    var verifiedCount = Model.Count(l => l.IsVerified);
+    var pendingCount = Model.Count(l => !l.IsVerified);
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="font-serif fw-bold mb-0">Family &amp; Prisoner Links</h2>
+        <p class="text-muted mb-0">Manage and verify family relationship claims for prisoners.</p>
+    </div>
+    <div class="d-flex gap-2 align-items-center text-muted small">
+        <span class="badge bg-success fs-6 px-3">@verifiedCount Verified</span>
+        <span class="badge bg-warning text-dark fs-6 px-3">@pendingCount Pending</span>
+    </div>
+</div>
+
+<!-- Filter Bar -->
+<div class="d-flex gap-2 mb-4 flex-wrap">
+    <a asp-action="FamilyLinks" asp-route-filter="" 
+       class="btn btn-sm @(filter == "" ? "btn-primary" : "btn-outline-secondary") rounded-pill px-3">
+        All (@Model.Count())
+    </a>
+    <a asp-action="FamilyLinks" asp-route-filter="verified"
+       class="btn btn-sm @(filter == "verified" ? "btn-success" : "btn-outline-success") rounded-pill px-3">
+        <i class="fa-solid fa-circle-check me-1"></i>Verified (@verifiedCount)
+    </a>
+    <a asp-action="FamilyLinks" asp-route-filter="pending"
+       class="btn btn-sm @(filter == "pending" ? "btn-warning" : "btn-outline-warning") rounded-pill px-3">
+        <i class="fa-solid fa-clock me-1"></i>Pending (@pendingCount)
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="card content-card text-center py-5">
+        <i class="fa-solid fa-link-slash fa-3x text-muted opacity-50 mb-3"></i>
+        <h5 class="fw-bold text-muted">No Links Found</h5>
+        <p class="text-muted">No family-prisoner links match the current filter.</p>
+        <a asp-action="FamilyLinks" class="btn btn-outline-secondary btn-sm px-4">Clear Filter</a>
+    </div>
+}
+else
+{
+    <div class="card content-card p-0 border-top border-4 border-accent">
+        <div class="table-responsive">
+            <table class="table table-custom table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Family Member</th>
+                        <th>Prisoner</th>
+                        <th>Relationship</th>
+                        <th>Status</th>
+                        <th>Linked On</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var link in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                                         style="width: 40px; height: 40px; flex-shrink: 0;">
+                                        <strong>@link.User?.FullName?.Substring(0, 1).ToUpper()</strong>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark">@link.User?.FullName</div>
+                                        <small class="text-muted">
+                                            <i class="fa-solid fa-envelope me-1"></i>@link.User?.Email
+                                        </small>
+                                        @if (!string.IsNullOrEmpty(link.User?.PhoneNumber))
+                                        {
+                                            <br /><small class="text-muted"><i class="fa-solid fa-phone me-1"></i>@link.User.PhoneNumber</small>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar bg-danger bg-opacity-10 text-danger rounded-circle d-flex align-items-center justify-content-center me-3"
+                                         style="width: 38px; height: 38px; flex-shrink: 0;">
+                                        <i class="fa-solid fa-user-lock"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark">@link.Prisoner?.FullName</div>
+                                        <small class="font-mono text-muted">@link.Prisoner?.PrisonerCode</small>
+                                        <br /><small class="text-muted"><i class="fa-solid fa-building me-1"></i>Block @link.Prisoner?.CellBlock, Cell @link.Prisoner?.CellNumber</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-light text-dark border px-3">
+                                    <i class="fa-solid fa-heart text-danger me-1"></i>@link.Relationship
+                                </span>
+                            </td>
+                            <td>
+                                @if (link.IsVerified)
+                                {
+                                    <span class="badge-status active d-inline-block">
+                                        <i class="fa-solid fa-circle-check me-1"></i>Verified
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge-status pending d-inline-block">
+                                        <i class="fa-regular fa-clock me-1"></i>Pending
+                                    </span>
+                                }
+                            </td>
+                            <td class="text-muted small">@link.LinkedAt.ToString("MMM dd, yyyy")</td>
+                            <td class="text-end">
+                                <div class="d-flex gap-1 justify-content-end">
+                                    @if (!link.IsVerified)
+                                    {
+                                        <form asp-action="VerifyLink" method="post" class="d-inline"
+                                              onsubmit="return confirm('Verify this family-prisoner relationship?');">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@link.LinkId" />
+                                            <button type="submit" class="btn btn-sm btn-success shadow-sm" title="Verify Link">
+                                                <i class="fa-solid fa-check me-1"></i>Verify
+                                            </button>
+                                        </form>
+                                        <form asp-action="RejectLink" method="post" class="d-inline"
+                                              onsubmit="return confirm('Reject this link request? This cannot be undone.');">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@link.LinkId" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger shadow-sm" title="Reject Link">
+                                                <i class="fa-solid fa-xmark me-1"></i>Reject
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        @if (link.Prisoner != null)
+                                        {
+                                            <a asp-action="ViewPrisoner" asp-route-id="@link.PrisonerId"
+                                               class="btn btn-sm btn-outline-primary" title="View Prisoner">
+                                                <i class="fa-solid fa-eye me-1"></i>View Prisoner
+                                            </a>
+                                        }
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

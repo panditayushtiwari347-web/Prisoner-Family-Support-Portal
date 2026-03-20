@@ -1,0 +1,32 @@
+<ul class="nav flex-column mb-auto">
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Dashboard" ? "active" : "")" asp-controller="Family" asp-action="Dashboard">
+            <i class="fa-solid fa-house nav-icon"></i> Home
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "SearchPrisoner" ? "active" : "")" asp-controller="Family" asp-action="SearchPrisoner">
+            <i class="fa-solid fa-magnifying-glass nav-icon"></i> Find Prisoner
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "BookVisit" ? "active" : "")" asp-controller="Family" asp-action="BookVisit">
+            <i class="fa-regular fa-calendar-check nav-icon"></i> Book Visit
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "MyAppointments" ? "active" : "")" asp-controller="Family" asp-action="MyAppointments">
+            <i class="fa-solid fa-clock-rotate-left nav-icon"></i> My Visits
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "SubmitRequest" ? "active" : "")" asp-controller="Family" asp-action="SubmitRequest">
+            <i class="fa-solid fa-paper-plane nav-icon"></i> New Request
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "MyRequests" ? "active" : "")" asp-controller="Family" asp-action="MyRequests">
+            <i class="fa-solid fa-envelopes-bulk nav-icon"></i> My Requests
+        </a>
+    </li>
+</ul>

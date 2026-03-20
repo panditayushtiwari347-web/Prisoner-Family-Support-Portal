@@ -1,0 +1,117 @@
+@model PrisonerPortal.Models.ViewModels.PrisonerViewModel
+@{
+    ViewData["Title"] = "Add Prisoner";
+}
+
+<div class="row w-100 m-0">
+    <div class="col-12 col-xl-10 col-xxl-8 mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <a asp-action="Prisoners" class="btn btn-sm btn-light text-muted mb-2"><i class="fa-solid fa-arrow-left me-2"></i>Back to List</a>
+                <h2 class="font-serif fw-bold mb-0">Add New Prisoner</h2>
+                <p class="text-muted mb-0">Enter the completely verified details for the new inmate.</p>
+            </div>
+        </div>
+
+        <div class="card content-card">
+            <form asp-action="AddPrisoner" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4 p-3 bg-danger bg-opacity-10 rounded"></div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label asp-for="FullName" class="form-label fw-semibold">Personal Information</label>
+                        <input asp-for="FullName" class="form-control mb-3" placeholder="Full Legal Name" />
+                        <span asp-validation-for="FullName" class="field-validation-error"></span>
+
+                        <div class="row g-2">
+                            <div class="col-sm-6">
+                                <label asp-for="DateOfBirth" class="form-label text-muted small">Date of Birth</label>
+                                <input asp-for="DateOfBirth" class="form-control" type="date" />
+                                <span asp-validation-for="DateOfBirth" class="field-validation-error"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label asp-for="Gender" class="form-label text-muted small">Gender</label>
+                                <select asp-for="Gender" class="form-select">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="field-validation-error"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 border-start-md ps-md-4">
+                        <label asp-for="CaseNumber" class="form-label fw-semibold">Legal Information</label>
+                        <input asp-for="CaseNumber" class="form-control mb-3" placeholder="Case Number (e.g., CR-2023-1042)" />
+                        <span asp-validation-for="CaseNumber" class="field-validation-error"></span>
+
+                        <div class="mb-3">
+                            <label asp-for="CrimeCategory" class="form-label text-muted small">Crime Category</label>
+                            <input asp-for="CrimeCategory" class="form-control" placeholder="e.g., Fraud, Assault, Theft" />
+                            <span asp-validation-for="CrimeCategory" class="field-validation-error"></span>
+                        </div>
+
+                        <div class="row g-2">
+                            <div class="col-sm-6">
+                                <label asp-for="SentenceStartDate" class="form-label text-muted small">Sentence Start</label>
+                                <input asp-for="SentenceStartDate" class="form-control" type="date" />
+                                <span asp-validation-for="SentenceStartDate" class="field-validation-error"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label asp-for="SentenceEndDate" class="form-label text-muted small">Sentence End</label>
+                                <input asp-for="SentenceEndDate" class="form-control" type="date" />
+                                <span asp-validation-for="SentenceEndDate" class="field-validation-error"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="text-muted opacity-25 my-4" />
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-12">
+                        <h6 class="fw-semibold mb-3">Facility Assignment</h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label asp-for="CellBlock" class="form-label text-muted small">Cell Block</label>
+                                <select asp-for="CellBlock" class="form-select">
+                                    <option value="Block A">Block A (Minimum Security)</option>
+                                    <option value="Block B">Block B (Medium Security)</option>
+                                    <option value="Block C">Block C (Maximum Security)</option>
+                                    <option value="Medical Wing">Medical Wing</option>
+                                </select>
+                                <span asp-validation-for="CellBlock" class="field-validation-error"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="CellNumber" class="form-label text-muted small">Cell Number</label>
+                                <input asp-for="CellNumber" class="form-control" placeholder="e.g. 101" />
+                                <span asp-validation-for="CellNumber" class="field-validation-error"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="Status" class="form-label text-muted small">Initial Status</label>
+                                <select asp-for="Status" class="form-select bg-light">
+                                    <option value="Active">Active</option>
+                                    <option value="Released">Released</option>
+                                    <option value="Transferred">Transferred</option>
+                                </select>
+                                <span asp-validation-for="Status" class="field-validation-error"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <a asp-action="Prisoners" class="btn btn-light me-3 px-4 fw-semibold">Cancel</a>
+                    <button type="submit" class="btn btn-primary px-5 fw-bold shadow-sm">
+                        <i class="fa-solid fa-plus me-2"></i> Register Prisoner
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

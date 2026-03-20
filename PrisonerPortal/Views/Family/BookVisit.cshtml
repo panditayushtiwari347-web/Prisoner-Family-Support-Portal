@@ -1,0 +1,166 @@
+@model PrisonerPortal.Models.ViewModels.BookVisitViewModel
+@{
+    ViewData["Title"] = "Book Visit";
+    var slotsByDate = Model.AvailableSlots.GroupBy(s => s.SlotDate).ToList();
+}
+
+<div class="row w-100 m-0 mb-4">
+    <div class="col-12 col-xl-10 col-xxl-8 mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <a asp-action="MyAppointments" class="btn btn-sm btn-light text-muted mb-2"><i class="fa-solid fa-arrow-left me-2"></i>My Visits</a>
+                <h2 class="font-serif fw-bold mb-0">Schedule a Visit</h2>
+                <p class="text-muted mb-0">Select an approved inmate and choose an available time slot.</p>
+            </div>
+        </div>
+
+        <div class="card content-card">
+            <form asp-action="BookVisit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4 p-3 bg-danger bg-opacity-10 rounded"></div>
+
+                <div class="mb-5">
+                    <h5 class="fw-bold border-bottom pb-2 mb-3"><i class="fa-solid fa-user text-primary me-2"></i> Who are you visiting?</h5>
+                    <label asp-for="PrisonerId" class="form-label fw-semibold text-muted small text-uppercase">Select Verified Inmate</label>
+                    <select asp-for="PrisonerId" class="form-select form-select-lg border-primary">
+                        <option value="0" disabled selected>-- Choose an inmate --</option>
+                        @foreach(var prisoner in Model.LinkedPrisoners)
+                        {
+                            if(Model.PrisonerId == prisoner.PrisonerId)
+                            {
+                                <option value="@prisoner.PrisonerId" selected>@prisoner.Prisoner.FullName (@prisoner.Prisoner.PrisonerCode)</option>
+                            }
+                            else
+                            {
+                                <option value="@prisoner.PrisonerId">@prisoner.Prisoner.FullName (@prisoner.Prisoner.PrisonerCode)</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="PrisonerId" class="field-validation-error"></span>
+                </div>
+
+                <div class="mb-5">
+                    <h5 class="fw-bold border-bottom pb-2 mb-3"><i class="fa-regular fa-clock text-accent me-2"></i> Select Time Slot</h5>
+                    <span asp-validation-for="SlotId" class="field-validation-error mb-2"></span>
+                    
+                    @if(slotsByDate.Any())
+                    {
+                        <div class="accordion" id="slotsAccordion">
+                            @{ var index = 0; }
+                            @foreach(var dateGroup in slotsByDate)
+                            {
+                                var showClass = index == 0 ? "show" : "";
+                                var collapsedClass = index == 0 ? "" : "collapsed";
+                                
+                                <div class="accordion-item border mb-2 rounded overflow-hidden shadow-sm">
+                                    <h2 class="accordion-header" id="heading_@index">
+                                        <button class="accordion-button @collapsedClass bg-surface text-dark fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@index" aria-expanded="true" aria-controls="collapse_@index">
+                                            <i class="fa-regular fa-calendar-check me-2 text-primary"></i> @dateGroup.Key.ToString("dddd, MMMM dd, yyyy")
+                                        </button>
+                                    </h2>
+                                    <div id="collapse_@index" class="accordion-collapse collapse @showClass" aria-labelledby="heading_@index" data-bs-parent="#slotsAccordion">
+                                        <div class="accordion-body p-3">
+                                            <div class="row g-3">
+                                                @foreach(var slot in dateGroup)
+                                                {
+                                                    var isFull = slot.CurrentBookings >= slot.MaxCapacity;
+                                                    <div class="col-sm-6 col-md-4">
+                                                        <div class="form-check custom-slot-card h-100 @(isFull ? "opacity-50" : "")">
+                                                            <input class="form-check-input visually-hidden slot-radio" type="radio" name="SlotId" id="slot_@slot.SlotId" value="@slot.SlotId" @(isFull ? "disabled" : "")>
+                                                            <label class="form-check-label card h-100 p-3 text-center cursor-pointer transition-all border @(isFull ? "bg-light" : "border-primary-hover")" for="slot_@slot.SlotId">
+                                                                <div class="fw-bold font-mono text-dark fs-5">@slot.StartTime.ToString(@"hh\:mm")<br/><small class="text-muted fw-normal" style="font-size: 0.8rem;">to @slot.EndTime.ToString(@"hh\:mm")</small></div>
+                                                                <hr class="my-2 opacity-25" />
+                                                                @if(isFull)
+                                                                {
+                                                                    <div class="badge bg-danger">Capacity Full</div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">@(slot.MaxCapacity - slot.CurrentBookings) spots left</div>
+                                                                }
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                index++;
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning border-0">
+                            <i class="fa-solid fa-calendar-xmark me-2"></i> No available visit slots found for the upcoming dates. Please check back later.
+                        </div>
+                    }
+                </div>
+
+                <div class="mb-4">
+                    <h5 class="fw-bold border-bottom pb-2 mb-3"><i class="fa-solid fa-users-line text-success me-2"></i> Visitor Details</h5>
+                    
+                    <div class="row g-4 mb-3">
+                        <div class="col-md-4">
+                            <label asp-for="NumVisitors" class="form-label fw-semibold text-muted small text-uppercase">Total Visitors</label>
+                            <input asp-for="NumVisitors" class="form-control" type="number" min="1" max="5" />
+                            <span asp-validation-for="NumVisitors" class="field-validation-error"></span>
+                            <div class="form-text">Max 5 per visit.</div>
+                        </div>
+                        <div class="col-md-8">
+                            <label asp-for="VisitorNames" class="form-label fw-semibold text-muted small text-uppercase">Full Names of All Visitors</label>
+                            <input asp-for="VisitorNames" class="form-control" placeholder="e.g. Jane Doe, John Doe Jr" />
+                            <span asp-validation-for="VisitorNames" class="field-validation-error"></span>
+                            <div class="form-text">Must match IDs presented at security checkpoint.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4 bg-light p-4 rounded border">
+                    <label asp-for="Purpose" class="form-label fw-semibold text-muted small text-uppercase">Purpose of Visit</label>
+                    <select asp-for="Purpose" class="form-select mb-3">
+                        <option value="General Check-in">General Check-in</option>
+                        <option value="Legal Matters">Legal Matters</option>
+                        <option value="Family Emergency">Family Emergency</option>
+                        <option value="Holiday/Special Day">Holiday/Special Day</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <span asp-validation-for="Purpose" class="field-validation-error"></span>
+
+                    <label asp-for="Notes" class="form-label fw-semibold text-muted small text-uppercase mt-2">Special Requests/Notes (Optional)</label>
+                    <textarea asp-for="Notes" class="form-control" rows="2" placeholder="Dietary needs, wheelchair access, etc."></textarea>
+                    <span asp-validation-for="Notes" class="field-validation-error"></span>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-primary px-5 py-3 fw-bold shadow-lg" id="submitBtn">
+                        Submit Visit Request <i class="fa-solid fa-arrow-right ms-2"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .custom-slot-card .card { transition: all 0.2s; }
+    .custom-slot-card input.slot-radio:checked + label {
+        background-color: var(--primary) !important;
+        border-color: var(--primary) !important;
+        color: white !important;
+        transform: scale(1.02);
+        box-shadow: 0 4px 15px rgba(27, 58, 107, 0.2);
+    }
+    .custom-slot-card input.slot-radio:checked + label div.text-dark,
+    .custom-slot-card input.slot-radio:checked + label small.text-muted {
+        color: white !important;
+    }
+    .custom-slot-card .border-primary-hover:hover {
+        border-color: var(--primary) !important;
+        background-color: rgba(27, 58, 107, 0.05);
+    }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

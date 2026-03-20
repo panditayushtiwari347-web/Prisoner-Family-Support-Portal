@@ -1,0 +1,503 @@
+2026-03-17 09:49:44.907 +05:30 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-03-17 09:49:52.423 +05:30 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-03-17 09:49:53.076 +05:30 [INF] Executed DbCommand (206ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+CREATE DATABASE [PrisonerPortalDB];
+2026-03-17 09:49:53.166 +05:30 [INF] Executed DbCommand (87ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+IF SERVERPROPERTY('EngineEdition') <> 5
+BEGIN
+    ALTER DATABASE [PrisonerPortalDB] SET READ_COMMITTED_SNAPSHOT ON;
+END;
+2026-03-17 09:49:53.231 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-03-17 09:49:53.286 +05:30 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [__EFMigrationsHistory] (
+    [MigrationId] nvarchar(150) NOT NULL,
+    [ProductVersion] nvarchar(32) NOT NULL,
+    CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+);
+2026-03-17 09:49:53.287 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-03-17 09:49:53.299 +05:30 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-03-17 09:49:53.334 +05:30 [INF] Executed DbCommand (33ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2026-03-17 09:49:53.344 +05:30 [INF] Applying migration '20260317041945_InitialCreate'.
+2026-03-17 09:49:53.415 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoles] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(256) NULL,
+    [NormalizedName] nvarchar(256) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
+);
+2026-03-17 09:49:53.419 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUsers] (
+    [Id] nvarchar(450) NOT NULL,
+    [FullName] nvarchar(150) NOT NULL,
+    [Address] nvarchar(500) NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [IsActive] bit NOT NULL,
+    [Role] nvarchar(max) NOT NULL,
+    [UserName] nvarchar(256) NULL,
+    [NormalizedUserName] nvarchar(256) NULL,
+    [Email] nvarchar(256) NULL,
+    [NormalizedEmail] nvarchar(256) NULL,
+    [EmailConfirmed] bit NOT NULL,
+    [PasswordHash] nvarchar(max) NULL,
+    [SecurityStamp] nvarchar(max) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    [PhoneNumber] nvarchar(max) NULL,
+    [PhoneNumberConfirmed] bit NOT NULL,
+    [TwoFactorEnabled] bit NOT NULL,
+    [LockoutEnd] datetimeoffset NULL,
+    [LockoutEnabled] bit NOT NULL,
+    [AccessFailedCount] int NOT NULL,
+    CONSTRAINT [PK_AspNetUsers] PRIMARY KEY ([Id])
+);
+2026-03-17 09:49:53.425 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Prisoners] (
+    [PrisonerId] int NOT NULL IDENTITY,
+    [PrisonerCode] nvarchar(20) NOT NULL,
+    [FullName] nvarchar(150) NOT NULL,
+    [DateOfBirth] datetime2 NOT NULL,
+    [Gender] nvarchar(max) NOT NULL,
+    [CaseNumber] nvarchar(450) NOT NULL,
+    [CrimeCategory] nvarchar(max) NOT NULL,
+    [SentenceStartDate] datetime2 NOT NULL,
+    [SentenceEndDate] datetime2 NOT NULL,
+    [CellBlock] nvarchar(max) NOT NULL,
+    [CellNumber] nvarchar(max) NOT NULL,
+    [Status] nvarchar(max) NOT NULL DEFAULT N'Active',
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Prisoners] PRIMARY KEY ([PrisonerId])
+);
+2026-03-17 09:49:53.429 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoleClaims] (
+    [Id] int NOT NULL IDENTITY,
+    [RoleId] nvarchar(450) NOT NULL,
+    [ClaimType] nvarchar(max) NULL,
+    [ClaimValue] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoleClaims] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE
+);
+2026-03-17 09:49:53.432 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserClaims] (
+    [Id] int NOT NULL IDENTITY,
+    [UserId] nvarchar(450) NOT NULL,
+    [ClaimType] nvarchar(max) NULL,
+    [ClaimValue] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetUserClaims] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2026-03-17 09:49:53.437 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserLogins] (
+    [LoginProvider] nvarchar(450) NOT NULL,
+    [ProviderKey] nvarchar(450) NOT NULL,
+    [ProviderDisplayName] nvarchar(max) NULL,
+    [UserId] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_AspNetUserLogins] PRIMARY KEY ([LoginProvider], [ProviderKey]),
+    CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2026-03-17 09:49:53.441 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserRoles] (
+    [UserId] nvarchar(450) NOT NULL,
+    [RoleId] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_AspNetUserRoles] PRIMARY KEY ([UserId], [RoleId]),
+    CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2026-03-17 09:49:53.443 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetUserTokens] (
+    [UserId] nvarchar(450) NOT NULL,
+    [LoginProvider] nvarchar(450) NOT NULL,
+    [Name] nvarchar(450) NOT NULL,
+    [Value] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetUserTokens] PRIMARY KEY ([UserId], [LoginProvider], [Name]),
+    CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2026-03-17 09:49:53.445 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AuditLogs] (
+    [LogId] int NOT NULL IDENTITY,
+    [UserId] nvarchar(450) NULL,
+    [Action] nvarchar(max) NOT NULL,
+    [EntityType] nvarchar(max) NOT NULL,
+    [EntityId] nvarchar(max) NOT NULL,
+    [OldValues] nvarchar(max) NULL,
+    [NewValues] nvarchar(max) NULL,
+    [IPAddress] nvarchar(max) NULL,
+    [Timestamp] datetime2 NOT NULL,
+    CONSTRAINT [PK_AuditLogs] PRIMARY KEY ([LogId]),
+    CONSTRAINT [FK_AuditLogs_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id])
+);
+2026-03-17 09:49:53.449 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Notifications] (
+    [NotificationId] int NOT NULL IDENTITY,
+    [UserId] nvarchar(450) NOT NULL,
+    [Title] nvarchar(max) NOT NULL,
+    [Message] nvarchar(max) NOT NULL,
+    [Type] nvarchar(max) NOT NULL,
+    [IsRead] bit NOT NULL,
+    [RelatedEntityId] int NULL,
+    [RelatedEntityType] nvarchar(max) NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Notifications] PRIMARY KEY ([NotificationId]),
+    CONSTRAINT [FK_Notifications_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2026-03-17 09:49:53.452 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [VisitSlots] (
+    [SlotId] int NOT NULL IDENTITY,
+    [SlotDate] datetime2 NOT NULL,
+    [StartTime] time NOT NULL,
+    [EndTime] time NOT NULL,
+    [MaxCapacity] int NOT NULL DEFAULT 10,
+    [CurrentBookings] int NOT NULL DEFAULT 0,
+    [IsActive] bit NOT NULL,
+    [CreatedByAdminId] nvarchar(450) NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_VisitSlots] PRIMARY KEY ([SlotId]),
+    CONSTRAINT [FK_VisitSlots_AspNetUsers_CreatedByAdminId] FOREIGN KEY ([CreatedByAdminId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+);
+2026-03-17 09:49:53.454 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [FamilyPrisonerLinks] (
+    [LinkId] int NOT NULL IDENTITY,
+    [UserId] nvarchar(450) NOT NULL,
+    [PrisonerId] int NOT NULL,
+    [Relationship] nvarchar(max) NOT NULL,
+    [IsVerified] bit NOT NULL,
+    [VerifiedByAdminId] nvarchar(450) NULL,
+    [LinkedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_FamilyPrisonerLinks] PRIMARY KEY ([LinkId]),
+    CONSTRAINT [FK_FamilyPrisonerLinks_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_FamilyPrisonerLinks_AspNetUsers_VerifiedByAdminId] FOREIGN KEY ([VerifiedByAdminId]) REFERENCES [AspNetUsers] ([Id]),
+    CONSTRAINT [FK_FamilyPrisonerLinks_Prisoners_PrisonerId] FOREIGN KEY ([PrisonerId]) REFERENCES [Prisoners] ([PrisonerId]) ON DELETE NO ACTION
+);
+2026-03-17 09:49:53.460 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [SupportRequests] (
+    [RequestId] int NOT NULL IDENTITY,
+    [RequestCode] nvarchar(450) NOT NULL,
+    [UserId] nvarchar(450) NOT NULL,
+    [PrisonerId] int NOT NULL,
+    [Category] nvarchar(max) NOT NULL,
+    [Subject] nvarchar(max) NOT NULL,
+    [Description] nvarchar(max) NOT NULL,
+    [Priority] nvarchar(max) NOT NULL,
+    [Status] nvarchar(max) NOT NULL,
+    [AdminResponse] nvarchar(max) NULL,
+    [AssignedAdminId] nvarchar(450) NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    [ResolvedAt] datetime2 NULL,
+    CONSTRAINT [PK_SupportRequests] PRIMARY KEY ([RequestId]),
+    CONSTRAINT [FK_SupportRequests_AspNetUsers_AssignedAdminId] FOREIGN KEY ([AssignedAdminId]) REFERENCES [AspNetUsers] ([Id]),
+    CONSTRAINT [FK_SupportRequests_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_SupportRequests_Prisoners_PrisonerId] FOREIGN KEY ([PrisonerId]) REFERENCES [Prisoners] ([PrisonerId]) ON DELETE NO ACTION
+);
+2026-03-17 09:49:53.465 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Appointments] (
+    [AppointmentId] int NOT NULL IDENTITY,
+    [AppointmentCode] nvarchar(450) NOT NULL,
+    [UserId] nvarchar(450) NOT NULL,
+    [PrisonerId] int NOT NULL,
+    [SlotId] int NOT NULL,
+    [Status] nvarchar(max) NOT NULL,
+    [Purpose] nvarchar(max) NOT NULL,
+    [NumVisitors] int NOT NULL,
+    [VisitorNames] nvarchar(max) NOT NULL,
+    [AdminNotes] nvarchar(max) NULL,
+    [RejectionReason] nvarchar(max) NULL,
+    [BookedAt] datetime2 NOT NULL,
+    [UpdatedAt] datetime2 NOT NULL,
+    CONSTRAINT [PK_Appointments] PRIMARY KEY ([AppointmentId]),
+    CONSTRAINT [FK_Appointments_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Appointments_Prisoners_PrisonerId] FOREIGN KEY ([PrisonerId]) REFERENCES [Prisoners] ([PrisonerId]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Appointments_VisitSlots_SlotId] FOREIGN KEY ([SlotId]) REFERENCES [VisitSlots] ([SlotId]) ON DELETE NO ACTION
+);
+2026-03-17 09:49:53.469 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX [IX_Appointments_AppointmentCode] ON [Appointments] ([AppointmentCode]);
+2026-03-17 09:49:53.470 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Appointments_PrisonerId] ON [Appointments] ([PrisonerId]);
+2026-03-17 09:49:53.471 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Appointments_SlotId] ON [Appointments] ([SlotId]);
+2026-03-17 09:49:53.472 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Appointments_UserId] ON [Appointments] ([UserId]);
+2026-03-17 09:49:53.473 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AspNetRoleClaims_RoleId] ON [AspNetRoleClaims] ([RoleId]);
+2026-03-17 09:49:53.477 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX [RoleNameIndex] ON [AspNetRoles] ([NormalizedName]) WHERE [NormalizedName] IS NOT NULL;
+2026-03-17 09:49:53.478 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AspNetUserClaims_UserId] ON [AspNetUserClaims] ([UserId]);
+2026-03-17 09:49:53.480 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AspNetUserLogins_UserId] ON [AspNetUserLogins] ([UserId]);
+2026-03-17 09:49:53.480 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AspNetUserRoles_RoleId] ON [AspNetUserRoles] ([RoleId]);
+2026-03-17 09:49:53.482 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [EmailIndex] ON [AspNetUsers] ([NormalizedEmail]);
+2026-03-17 09:49:53.483 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX [UserNameIndex] ON [AspNetUsers] ([NormalizedUserName]) WHERE [NormalizedUserName] IS NOT NULL;
+2026-03-17 09:49:53.484 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_AuditLogs_UserId] ON [AuditLogs] ([UserId]);
+2026-03-17 09:49:53.485 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_FamilyPrisonerLinks_PrisonerId] ON [FamilyPrisonerLinks] ([PrisonerId]);
+2026-03-17 09:49:53.486 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX [IX_FamilyPrisonerLinks_UserId_PrisonerId] ON [FamilyPrisonerLinks] ([UserId], [PrisonerId]);
+2026-03-17 09:49:53.487 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_FamilyPrisonerLinks_VerifiedByAdminId] ON [FamilyPrisonerLinks] ([VerifiedByAdminId]);
+2026-03-17 09:49:53.488 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Notifications_UserId] ON [Notifications] ([UserId]);
+2026-03-17 09:49:53.488 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX [IX_Prisoners_CaseNumber] ON [Prisoners] ([CaseNumber]);
+2026-03-17 09:49:53.490 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX [IX_Prisoners_PrisonerCode] ON [Prisoners] ([PrisonerCode]);
+2026-03-17 09:49:53.490 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_SupportRequests_AssignedAdminId] ON [SupportRequests] ([AssignedAdminId]);
+2026-03-17 09:49:53.491 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_SupportRequests_PrisonerId] ON [SupportRequests] ([PrisonerId]);
+2026-03-17 09:49:53.492 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX [IX_SupportRequests_RequestCode] ON [SupportRequests] ([RequestCode]);
+2026-03-17 09:49:53.493 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_SupportRequests_UserId] ON [SupportRequests] ([UserId]);
+2026-03-17 09:49:53.494 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_VisitSlots_CreatedByAdminId] ON [VisitSlots] ([CreatedByAdminId]);
+2026-03-17 09:49:53.498 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20260317041945_InitialCreate', N'7.0.20');
+2026-03-17 10:04:04.606 +05:30 [INF] User profile is available. Using 'C:\Users\HP\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-03-17 10:04:04.990 +05:30 [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2026-03-17 10:04:05.412 +05:30 [INF] Executed DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-03-17 10:04:05.446 +05:30 [INF] Executed DbCommand (18ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-03-17 10:04:05.453 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-03-17 10:04:05.456 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2026-03-17 10:04:05.475 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2026-03-17 10:04:05.490 +05:30 [INF] No migrations were applied. The database is already up to date.
+2026-03-17 10:04:05.696 +05:30 [INF] Executed DbCommand (31ms) [Parameters=[@__normalizedName_0='ADMIN' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2026-03-17 10:04:05.718 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='ADMIN' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2026-03-17 10:04:05.826 +05:30 [INF] Executed DbCommand (11ms) [Parameters=[@p0='a09f9db7-3085-4748-a42c-f4859769961e' (Nullable = false) (Size = 450), @p1='a385cbb1-df6d-46c0-b180-3b750b7cc388' (Size = 4000), @p2='Admin' (Size = 256), @p3='ADMIN' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName])
+VALUES (@p0, @p1, @p2, @p3);
+2026-03-17 10:04:05.864 +05:30 [INF] Executed DbCommand (26ms) [Parameters=[@__normalizedName_0='FAMILY' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2026-03-17 10:04:05.868 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='FAMILY' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2026-03-17 10:04:05.872 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='b23a1e42-6d28-4c89-a550-b0519e5c57aa' (Nullable = false) (Size = 450), @p1='7995c726-ea42-42b2-8132-fff65d51d29e' (Size = 4000), @p2='Family' (Size = 256), @p3='FAMILY' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName])
+VALUES (@p0, @p1, @p2, @p3);
+2026-03-17 10:04:05.892 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@__normalizedEmail_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:04:05.972 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedUserName_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2026-03-17 10:04:05.981 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:04:06.060 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@p0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p1='0', @p2=NULL (Size = 500), @p3='4e008399-1103-4861-b87c-10089f30822f' (Size = 4000), @p4='2026-03-17T04:34:05.8960384Z', @p5='admin@prisonerportal.gov' (Size = 256), @p6='True', @p7='System Administrator' (Nullable = false) (Size = 150), @p8='True', @p9='True', @p10=NULL (DbType = DateTimeOffset), @p11='ADMIN@PRISONERPORTAL.GOV' (Size = 256), @p12='ADMIN@PRISONERPORTAL.GOV' (Size = 256), @p13='AQAAAAIAAYagAAAAEOJ7Tox6QZL1Wh9+JkAHu/ASG21Ur6T9mBePA37Y/oF4g3k3pixvL8izlbS5J9DUmQ==' (Size = 4000), @p14=NULL (Size = 4000), @p15='False', @p16='Family' (Nullable = false) (Size = 4000), @p17='EN7VTC3AHXS3LHBD7KSEN3HQU3I5OJGL' (Size = 4000), @p18='False', @p19='admin@prisonerportal.gov' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [AspNetUsers] ([Id], [AccessFailedCount], [Address], [ConcurrencyStamp], [CreatedAt], [Email], [EmailConfirmed], [FullName], [IsActive], [LockoutEnabled], [LockoutEnd], [NormalizedEmail], [NormalizedUserName], [PasswordHash], [PhoneNumber], [PhoneNumberConfirmed], [Role], [SecurityStamp], [TwoFactorEnabled], [UserName])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19);
+2026-03-17 10:04:06.074 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedRoleName_0='ADMIN' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2026-03-17 10:04:06.099 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Size = 450), @__p_1='a09f9db7-3085-4748-a42c-f4859769961e' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[UserId], [a].[RoleId]
+FROM [AspNetUserRoles] AS [a]
+WHERE [a].[UserId] = @__p_0 AND [a].[RoleId] = @__p_1
+2026-03-17 10:04:06.107 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedRoleName_0='ADMIN' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2026-03-17 10:04:06.124 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@__normalizedUserName_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2026-03-17 10:04:06.133 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedEmail_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:04:06.183 +05:30 [INF] Executed DbCommand (30ms) [Parameters=[@p0='a09f9db7-3085-4748-a42c-f4859769961e' (Nullable = false) (Size = 450), @p1='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p21='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p2='0', @p3=NULL (Size = 500), @p4='87d522c5-cdd4-49f1-9d29-a79292024d50' (Size = 4000), @p22='4e008399-1103-4861-b87c-10089f30822f' (Size = 4000), @p5='2026-03-17T04:34:05.8960384Z', @p6='admin@prisonerportal.gov' (Size = 256), @p7='True', @p8='System Administrator' (Nullable = false) (Size = 150), @p9='True', @p10='True', @p11=NULL (DbType = DateTimeOffset), @p12='ADMIN@PRISONERPORTAL.GOV' (Size = 256), @p13='ADMIN@PRISONERPORTAL.GOV' (Size = 256), @p14='AQAAAAIAAYagAAAAEOJ7Tox6QZL1Wh9+JkAHu/ASG21Ur6T9mBePA37Y/oF4g3k3pixvL8izlbS5J9DUmQ==' (Size = 4000), @p15=NULL (Size = 4000), @p16='False', @p17='Family' (Nullable = false) (Size = 4000), @p18='EN7VTC3AHXS3LHBD7KSEN3HQU3I5OJGL' (Size = 4000), @p19='False', @p20='admin@prisonerportal.gov' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [AspNetUserRoles] ([RoleId], [UserId])
+VALUES (@p0, @p1);
+UPDATE [AspNetUsers] SET [AccessFailedCount] = @p2, [Address] = @p3, [ConcurrencyStamp] = @p4, [CreatedAt] = @p5, [Email] = @p6, [EmailConfirmed] = @p7, [FullName] = @p8, [IsActive] = @p9, [LockoutEnabled] = @p10, [LockoutEnd] = @p11, [NormalizedEmail] = @p12, [NormalizedUserName] = @p13, [PasswordHash] = @p14, [PhoneNumber] = @p15, [PhoneNumberConfirmed] = @p16, [Role] = @p17, [SecurityStamp] = @p18, [TwoFactorEnabled] = @p19, [UserName] = @p20
+OUTPUT 1
+WHERE [Id] = @p21 AND [ConcurrencyStamp] = @p22;
+2026-03-17 10:04:06.197 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='FAMILY@TEST.COM' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:04:06.258 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedUserName_0='FAMILY@TEST.COM' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2026-03-17 10:04:06.263 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='FAMILY@TEST.COM' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:04:06.267 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='299e1191-3378-4290-96f3-be4bcb95962b' (Nullable = false) (Size = 450), @p1='0', @p2=NULL (Size = 500), @p3='5c66b046-a681-4e92-9aee-6fd1572a0a4a' (Size = 4000), @p4='2026-03-17T04:34:06.1997322Z', @p5='family@test.com' (Size = 256), @p6='True', @p7='Demo Family User' (Nullable = false) (Size = 150), @p8='True', @p9='True', @p10=NULL (DbType = DateTimeOffset), @p11='FAMILY@TEST.COM' (Size = 256), @p12='FAMILY@TEST.COM' (Size = 256), @p13='AQAAAAIAAYagAAAAEHjJJRKT4rUf7CxbuzGnFH7YObQL6087EC28hdtsy5k+QWiAhupPRAF9vKkR6++veQ==' (Size = 4000), @p14='9876543210' (Size = 4000), @p15='False', @p16='Family' (Nullable = false) (Size = 4000), @p17='4HRKNLGHECUFEEEA57TMUE7B5G5SE5FY' (Size = 4000), @p18='False', @p19='family@test.com' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [AspNetUsers] ([Id], [AccessFailedCount], [Address], [ConcurrencyStamp], [CreatedAt], [Email], [EmailConfirmed], [FullName], [IsActive], [LockoutEnabled], [LockoutEnd], [NormalizedEmail], [NormalizedUserName], [PasswordHash], [PhoneNumber], [PhoneNumberConfirmed], [Role], [SecurityStamp], [TwoFactorEnabled], [UserName])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19);
+2026-03-17 10:04:06.269 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedRoleName_0='FAMILY' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2026-03-17 10:04:06.272 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='299e1191-3378-4290-96f3-be4bcb95962b' (Size = 450), @__p_1='b23a1e42-6d28-4c89-a550-b0519e5c57aa' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[UserId], [a].[RoleId]
+FROM [AspNetUserRoles] AS [a]
+WHERE [a].[UserId] = @__p_0 AND [a].[RoleId] = @__p_1
+2026-03-17 10:04:06.274 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedRoleName_0='FAMILY' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0
+2026-03-17 10:04:06.277 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedUserName_0='FAMILY@TEST.COM' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2026-03-17 10:04:06.278 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='FAMILY@TEST.COM' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:04:06.281 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='b23a1e42-6d28-4c89-a550-b0519e5c57aa' (Nullable = false) (Size = 450), @p1='299e1191-3378-4290-96f3-be4bcb95962b' (Nullable = false) (Size = 450), @p21='299e1191-3378-4290-96f3-be4bcb95962b' (Nullable = false) (Size = 450), @p2='0', @p3=NULL (Size = 500), @p4='91276a5d-96cf-4587-8928-d551f2ccd730' (Size = 4000), @p22='5c66b046-a681-4e92-9aee-6fd1572a0a4a' (Size = 4000), @p5='2026-03-17T04:34:06.1997322Z', @p6='family@test.com' (Size = 256), @p7='True', @p8='Demo Family User' (Nullable = false) (Size = 150), @p9='True', @p10='True', @p11=NULL (DbType = DateTimeOffset), @p12='FAMILY@TEST.COM' (Size = 256), @p13='FAMILY@TEST.COM' (Size = 256), @p14='AQAAAAIAAYagAAAAEHjJJRKT4rUf7CxbuzGnFH7YObQL6087EC28hdtsy5k+QWiAhupPRAF9vKkR6++veQ==' (Size = 4000), @p15='9876543210' (Size = 4000), @p16='False', @p17='Family' (Nullable = false) (Size = 4000), @p18='4HRKNLGHECUFEEEA57TMUE7B5G5SE5FY' (Size = 4000), @p19='False', @p20='family@test.com' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [AspNetUserRoles] ([RoleId], [UserId])
+VALUES (@p0, @p1);
+UPDATE [AspNetUsers] SET [AccessFailedCount] = @p2, [Address] = @p3, [ConcurrencyStamp] = @p4, [CreatedAt] = @p5, [Email] = @p6, [EmailConfirmed] = @p7, [FullName] = @p8, [IsActive] = @p9, [LockoutEnabled] = @p10, [LockoutEnd] = @p11, [NormalizedEmail] = @p12, [NormalizedUserName] = @p13, [PasswordHash] = @p14, [PhoneNumber] = @p15, [PhoneNumberConfirmed] = @p16, [Role] = @p17, [SecurityStamp] = @p18, [TwoFactorEnabled] = @p19, [UserName] = @p20
+OUTPUT 1
+WHERE [Id] = @p21 AND [ConcurrencyStamp] = @p22;
+2026-03-17 10:04:06.299 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Prisoners] AS [p]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-03-17 10:04:06.339 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='ADMIN@PRISONERPORTAL.GOV' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[Address], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[FullName], [a].[IsActive], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[Role], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-03-17 10:04:06.347 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [VisitSlots] AS [v]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-03-17 10:04:06.454 +05:30 [INF] Executed DbCommand (66ms) [Parameters=[@p0='CASE-2024-001' (Nullable = false) (Size = 450), @p1='Block-A' (Nullable = false) (Size = 4000), @p2='A-101' (Nullable = false) (Size = 4000), @p3='2026-03-17T04:34:06.3026720Z', @p4='Theft' (Nullable = false) (Size = 4000), @p5='1985-04-12T00:00:00.0000000', @p6='Ramesh Kumar' (Nullable = false) (Size = 150), @p7='Male' (Nullable = false) (Size = 4000), @p8='PRS-2024-0001' (Nullable = false) (Size = 20), @p9='2027-01-15T00:00:00.0000000', @p10='2024-01-15T00:00:00.0000000', @p11='Active' (Nullable = false) (Size = 4000), @p12='2026-03-17T04:34:06.3027022Z', @p13='CASE-2024-002' (Nullable = false) (Size = 450), @p14='Block-B' (Nullable = false) (Size = 4000), @p15='B-205' (Nullable = false) (Size = 4000), @p16='2026-03-17T04:34:06.3027378Z', @p17='Fraud' (Nullable = false) (Size = 4000), @p18='1978-08-22T00:00:00.0000000', @p19='Suresh Patel' (Nullable = false) (Size = 150), @p20='Male' (Nullable = false) (Size = 4000), @p21='PRS-2024-0002' (Nullable = false) (Size = 20), @p22='2028-03-10T00:00:00.0000000', @p23='2024-03-10T00:00:00.0000000', @p24='Active' (Nullable = false) (Size = 4000), @p25='2026-03-17T04:34:06.3027378Z', @p26='CASE-2024-003' (Nullable = false) (Size = 450), @p27='Block-C' (Nullable = false) (Size = 4000), @p28='C-310' (Nullable = false) (Size = 4000), @p29='2026-03-17T04:34:06.3027381Z', @p30='Drug Offense' (Nullable = false) (Size = 4000), @p31='1992-12-05T00:00:00.0000000', @p32='Anjali Singh' (Nullable = false) (Size = 150), @p33='Female' (Nullable = false) (Size = 4000), @p34='PRS-2024-0003' (Nullable = false) (Size = 20), @p35='2026-06-01T00:00:00.0000000', @p36='2024-06-01T00:00:00.0000000', @p37='Active' (Nullable = false) (Size = 4000), @p38='2026-03-17T04:34:06.3027381Z', @p39='2026-03-17T04:34:06.3497127Z', @p40='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p41='11:00:00', @p42='True', @p43='10', @p44='2026-03-17T00:00:00.0000000+05:30', @p45='10:00:00', @p46='2026-03-17T04:34:06.3497439Z', @p47='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p48='15:00:00', @p49='True', @p50='10', @p51='2026-03-17T00:00:00.0000000+05:30', @p52='14:00:00', @p53='2026-03-17T04:34:06.3497447Z', @p54='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p55='11:00:00', @p56='True', @p57='10', @p58='2026-03-18T00:00:00.0000000+05:30', @p59='10:00:00', @p60='2026-03-17T04:34:06.3497448Z', @p61='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p62='15:00:00', @p63='True', @p64='10', @p65='2026-03-18T00:00:00.0000000+05:30', @p66='14:00:00', @p67='2026-03-17T04:34:06.3497449Z', @p68='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p69='11:00:00', @p70='True', @p71='10', @p72='2026-03-19T00:00:00.0000000+05:30', @p73='10:00:00', @p74='2026-03-17T04:34:06.3497455Z', @p75='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p76='15:00:00', @p77='True', @p78='10', @p79='2026-03-19T00:00:00.0000000+05:30', @p80='14:00:00', @p81='2026-03-17T04:34:06.3497456Z', @p82='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p83='11:00:00', @p84='True', @p85='10', @p86='2026-03-20T00:00:00.0000000+05:30', @p87='10:00:00', @p88='2026-03-17T04:34:06.3497457Z', @p89='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p90='15:00:00', @p91='True', @p92='10', @p93='2026-03-20T00:00:00.0000000+05:30', @p94='14:00:00', @p95='2026-03-17T04:34:06.3497458Z', @p96='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p97='11:00:00', @p98='True', @p99='10', @p100='2026-03-23T00:00:00.0000000+05:30', @p101='10:00:00', @p102='2026-03-17T04:34:06.3497460Z', @p103='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p104='15:00:00', @p105='True', @p106='10', @p107='2026-03-23T00:00:00.0000000+05:30', @p108='14:00:00', @p109='2026-03-17T04:34:06.3497461Z', @p110='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p111='11:00:00', @p112='True', @p113='10', @p114='2026-03-24T00:00:00.0000000+05:30', @p115='10:00:00', @p116='2026-03-17T04:34:06.3497462Z', @p117='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p118='15:00:00', @p119='True', @p120='10', @p121='2026-03-24T00:00:00.0000000+05:30', @p122='14:00:00', @p123='2026-03-17T04:34:06.3497464Z', @p124='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p125='11:00:00', @p126='True', @p127='10', @p128='2026-03-25T00:00:00.0000000+05:30', @p129='10:00:00', @p130='2026-03-17T04:34:06.3497465Z', @p131='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p132='15:00:00', @p133='True', @p134='10', @p135='2026-03-25T00:00:00.0000000+05:30', @p136='14:00:00', @p137='2026-03-17T04:34:06.3497466Z', @p138='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p139='11:00:00', @p140='True', @p141='10', @p142='2026-03-26T00:00:00.0000000+05:30', @p143='10:00:00', @p144='2026-03-17T04:34:06.3497467Z', @p145='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p146='15:00:00', @p147='True', @p148='10', @p149='2026-03-26T00:00:00.0000000+05:30', @p150='14:00:00', @p151='2026-03-17T04:34:06.3497468Z', @p152='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p153='11:00:00', @p154='True', @p155='10', @p156='2026-03-27T00:00:00.0000000+05:30', @p157='10:00:00', @p158='2026-03-17T04:34:06.3497469Z', @p159='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p160='15:00:00', @p161='True', @p162='10', @p163='2026-03-27T00:00:00.0000000+05:30', @p164='14:00:00', @p165='2026-03-17T04:34:06.3497471Z', @p166='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p167='11:00:00', @p168='True', @p169='10', @p170='2026-03-30T00:00:00.0000000+05:30', @p171='10:00:00', @p172='2026-03-17T04:34:06.3497472Z', @p173='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p174='15:00:00', @p175='True', @p176='10', @p177='2026-03-30T00:00:00.0000000+05:30', @p178='14:00:00', @p179='2026-03-17T04:34:06.3497473Z', @p180='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p181='11:00:00', @p182='True', @p183='10', @p184='2026-03-31T00:00:00.0000000+05:30', @p185='10:00:00', @p186='2026-03-17T04:34:06.3497474Z', @p187='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p188='15:00:00', @p189='True', @p190='10', @p191='2026-03-31T00:00:00.0000000+05:30', @p192='14:00:00', @p193='2026-03-17T04:34:06.3497475Z', @p194='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p195='11:00:00', @p196='True', @p197='10', @p198='2026-04-01T00:00:00.0000000+05:30', @p199='10:00:00', @p200='2026-03-17T04:34:06.3497476Z', @p201='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p202='15:00:00', @p203='True', @p204='10', @p205='2026-04-01T00:00:00.0000000+05:30', @p206='14:00:00', @p207='2026-03-17T04:34:06.3497477Z', @p208='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p209='11:00:00', @p210='True', @p211='10', @p212='2026-04-02T00:00:00.0000000+05:30', @p213='10:00:00', @p214='2026-03-17T04:34:06.3497478Z', @p215='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p216='15:00:00', @p217='True', @p218='10', @p219='2026-04-02T00:00:00.0000000+05:30', @p220='14:00:00', @p221='2026-03-17T04:34:06.3497479Z', @p222='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p223='11:00:00', @p224='True', @p225='10', @p226='2026-04-03T00:00:00.0000000+05:30', @p227='10:00:00', @p228='2026-03-17T04:34:06.3497480Z', @p229='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p230='15:00:00', @p231='True', @p232='10', @p233='2026-04-03T00:00:00.0000000+05:30', @p234='14:00:00', @p235='2026-03-17T04:34:06.3497481Z', @p236='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p237='11:00:00', @p238='True', @p239='10', @p240='2026-04-06T00:00:00.0000000+05:30', @p241='10:00:00', @p242='2026-03-17T04:34:06.3497482Z', @p243='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p244='15:00:00', @p245='True', @p246='10', @p247='2026-04-06T00:00:00.0000000+05:30', @p248='14:00:00', @p249='2026-03-17T04:34:06.3497483Z', @p250='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p251='11:00:00', @p252='True', @p253='10', @p254='2026-04-07T00:00:00.0000000+05:30', @p255='10:00:00', @p256='2026-03-17T04:34:06.3497483Z', @p257='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p258='15:00:00', @p259='True', @p260='10', @p261='2026-04-07T00:00:00.0000000+05:30', @p262='14:00:00', @p263='2026-03-17T04:34:06.3497484Z', @p264='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p265='11:00:00', @p266='True', @p267='10', @p268='2026-04-08T00:00:00.0000000+05:30', @p269='10:00:00', @p270='2026-03-17T04:34:06.3497486Z', @p271='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p272='15:00:00', @p273='True', @p274='10', @p275='2026-04-08T00:00:00.0000000+05:30', @p276='14:00:00', @p277='2026-03-17T04:34:06.3497487Z', @p278='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p279='11:00:00', @p280='True', @p281='10', @p282='2026-04-09T00:00:00.0000000+05:30', @p283='10:00:00', @p284='2026-03-17T04:34:06.3497488Z', @p285='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p286='15:00:00', @p287='True', @p288='10', @p289='2026-04-09T00:00:00.0000000+05:30', @p290='14:00:00', @p291='2026-03-17T04:34:06.3497489Z', @p292='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p293='11:00:00', @p294='True', @p295='10', @p296='2026-04-10T00:00:00.0000000+05:30', @p297='10:00:00', @p298='2026-03-17T04:34:06.3497490Z', @p299='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p300='15:00:00', @p301='True', @p302='10', @p303='2026-04-10T00:00:00.0000000+05:30', @p304='14:00:00', @p305='2026-03-17T04:34:06.3497491Z', @p306='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p307='11:00:00', @p308='True', @p309='10', @p310='2026-04-13T00:00:00.0000000+05:30', @p311='10:00:00'], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+MERGE [Prisoners] USING (
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, 0),
+(@p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25, 1),
+(@p26, @p27, @p28, @p29, @p30, @p31, @p32, @p33, @p34, @p35, @p36, @p37, @p38, 2)) AS i ([CaseNumber], [CellBlock], [CellNumber], [CreatedAt], [CrimeCategory], [DateOfBirth], [FullName], [Gender], [PrisonerCode], [SentenceEndDate], [SentenceStartDate], [Status], [UpdatedAt], _Position) ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([CaseNumber], [CellBlock], [CellNumber], [CreatedAt], [CrimeCategory], [DateOfBirth], [FullName], [Gender], [PrisonerCode], [SentenceEndDate], [SentenceStartDate], [Status], [UpdatedAt])
+VALUES (i.[CaseNumber], i.[CellBlock], i.[CellNumber], i.[CreatedAt], i.[CrimeCategory], i.[DateOfBirth], i.[FullName], i.[Gender], i.[PrisonerCode], i.[SentenceEndDate], i.[SentenceStartDate], i.[Status], i.[UpdatedAt])
+OUTPUT INSERTED.[PrisonerId], i._Position;
+MERGE [VisitSlots] USING (
+VALUES (@p39, @p40, @p41, @p42, @p43, @p44, @p45, 0),
+(@p46, @p47, @p48, @p49, @p50, @p51, @p52, 1),
+(@p53, @p54, @p55, @p56, @p57, @p58, @p59, 2),
+(@p60, @p61, @p62, @p63, @p64, @p65, @p66, 3),
+(@p67, @p68, @p69, @p70, @p71, @p72, @p73, 4),
+(@p74, @p75, @p76, @p77, @p78, @p79, @p80, 5),
+(@p81, @p82, @p83, @p84, @p85, @p86, @p87, 6),
+(@p88, @p89, @p90, @p91, @p92, @p93, @p94, 7),
+(@p95, @p96, @p97, @p98, @p99, @p100, @p101, 8),
+(@p102, @p103, @p104, @p105, @p106, @p107, @p108, 9),
+(@p109, @p110, @p111, @p112, @p113, @p114, @p115, 10),
+(@p116, @p117, @p118, @p119, @p120, @p121, @p122, 11),
+(@p123, @p124, @p125, @p126, @p127, @p128, @p129, 12),
+(@p130, @p131, @p132, @p133, @p134, @p135, @p136, 13),
+(@p137, @p138, @p139, @p140, @p141, @p142, @p143, 14),
+(@p144, @p145, @p146, @p147, @p148, @p149, @p150, 15),
+(@p151, @p152, @p153, @p154, @p155, @p156, @p157, 16),
+(@p158, @p159, @p160, @p161, @p162, @p163, @p164, 17),
+(@p165, @p166, @p167, @p168, @p169, @p170, @p171, 18),
+(@p172, @p173, @p174, @p175, @p176, @p177, @p178, 19),
+(@p179, @p180, @p181, @p182, @p183, @p184, @p185, 20),
+(@p186, @p187, @p188, @p189, @p190, @p191, @p192, 21),
+(@p193, @p194, @p195, @p196, @p197, @p198, @p199, 22),
+(@p200, @p201, @p202, @p203, @p204, @p205, @p206, 23),
+(@p207, @p208, @p209, @p210, @p211, @p212, @p213, 24),
+(@p214, @p215, @p216, @p217, @p218, @p219, @p220, 25),
+(@p221, @p222, @p223, @p224, @p225, @p226, @p227, 26),
+(@p228, @p229, @p230, @p231, @p232, @p233, @p234, 27),
+(@p235, @p236, @p237, @p238, @p239, @p240, @p241, 28),
+(@p242, @p243, @p244, @p245, @p246, @p247, @p248, 29),
+(@p249, @p250, @p251, @p252, @p253, @p254, @p255, 30),
+(@p256, @p257, @p258, @p259, @p260, @p261, @p262, 31),
+(@p263, @p264, @p265, @p266, @p267, @p268, @p269, 32),
+(@p270, @p271, @p272, @p273, @p274, @p275, @p276, 33),
+(@p277, @p278, @p279, @p280, @p281, @p282, @p283, 34),
+(@p284, @p285, @p286, @p287, @p288, @p289, @p290, 35),
+(@p291, @p292, @p293, @p294, @p295, @p296, @p297, 36),
+(@p298, @p299, @p300, @p301, @p302, @p303, @p304, 37),
+(@p305, @p306, @p307, @p308, @p309, @p310, @p311, 38)) AS i ([CreatedAt], [CreatedByAdminId], [EndTime], [IsActive], [MaxCapacity], [SlotDate], [StartTime], _Position) ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([CreatedAt], [CreatedByAdminId], [EndTime], [IsActive], [MaxCapacity], [SlotDate], [StartTime])
+VALUES (i.[CreatedAt], i.[CreatedByAdminId], i.[EndTime], i.[IsActive], i.[MaxCapacity], i.[SlotDate], i.[StartTime])
+OUTPUT INSERTED.[SlotId], INSERTED.[CurrentBookings], i._Position;
+2026-03-17 10:04:06.490 +05:30 [INF] Executed DbCommand (16ms) [Parameters=[@p0='2026-03-17T04:34:06.3497492Z', @p1='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p2='15:00:00', @p3='True', @p4='10', @p5='2026-04-13T00:00:00.0000000+05:30', @p6='14:00:00', @p7='2026-03-17T04:34:06.3497493Z', @p8='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p9='11:00:00', @p10='True', @p11='10', @p12='2026-04-14T00:00:00.0000000+05:30', @p13='10:00:00', @p14='2026-03-17T04:34:06.3497494Z', @p15='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p16='15:00:00', @p17='True', @p18='10', @p19='2026-04-14T00:00:00.0000000+05:30', @p20='14:00:00', @p21='2026-03-17T04:34:06.3497495Z', @p22='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p23='11:00:00', @p24='True', @p25='10', @p26='2026-04-15T00:00:00.0000000+05:30', @p27='10:00:00', @p28='2026-03-17T04:34:06.3497496Z', @p29='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p30='15:00:00', @p31='True', @p32='10', @p33='2026-04-15T00:00:00.0000000+05:30', @p34='14:00:00', @p35='2026-03-17T04:34:06.3497497Z', @p36='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p37='11:00:00', @p38='True', @p39='10', @p40='2026-04-16T00:00:00.0000000+05:30', @p41='10:00:00', @p42='2026-03-17T04:34:06.3497497Z', @p43='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p44='15:00:00', @p45='True', @p46='10', @p47='2026-04-16T00:00:00.0000000+05:30', @p48='14:00:00', @p49='2026-03-17T04:34:06.3497498Z', @p50='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p51='11:00:00', @p52='True', @p53='10', @p54='2026-04-17T00:00:00.0000000+05:30', @p55='10:00:00', @p56='2026-03-17T04:34:06.3497499Z', @p57='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p58='15:00:00', @p59='True', @p60='10', @p61='2026-04-17T00:00:00.0000000+05:30', @p62='14:00:00', @p63='2026-03-17T04:34:06.3497500Z', @p64='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p65='11:00:00', @p66='True', @p67='10', @p68='2026-04-20T00:00:00.0000000+05:30', @p69='10:00:00', @p70='2026-03-17T04:34:06.3497515Z', @p71='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p72='15:00:00', @p73='True', @p74='10', @p75='2026-04-20T00:00:00.0000000+05:30', @p76='14:00:00', @p77='2026-03-17T04:34:06.3497516Z', @p78='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p79='11:00:00', @p80='True', @p81='10', @p82='2026-04-21T00:00:00.0000000+05:30', @p83='10:00:00', @p84='2026-03-17T04:34:06.3497517Z', @p85='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p86='15:00:00', @p87='True', @p88='10', @p89='2026-04-21T00:00:00.0000000+05:30', @p90='14:00:00', @p91='2026-03-17T04:34:06.3497518Z', @p92='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p93='11:00:00', @p94='True', @p95='10', @p96='2026-04-22T00:00:00.0000000+05:30', @p97='10:00:00', @p98='2026-03-17T04:34:06.3497519Z', @p99='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p100='15:00:00', @p101='True', @p102='10', @p103='2026-04-22T00:00:00.0000000+05:30', @p104='14:00:00', @p105='2026-03-17T04:34:06.3497520Z', @p106='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p107='11:00:00', @p108='True', @p109='10', @p110='2026-04-23T00:00:00.0000000+05:30', @p111='10:00:00', @p112='2026-03-17T04:34:06.3497520Z', @p113='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p114='15:00:00', @p115='True', @p116='10', @p117='2026-04-23T00:00:00.0000000+05:30', @p118='14:00:00', @p119='2026-03-17T04:34:06.3497521Z', @p120='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p121='11:00:00', @p122='True', @p123='10', @p124='2026-04-24T00:00:00.0000000+05:30', @p125='10:00:00', @p126='2026-03-17T04:34:06.3497522Z', @p127='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p128='15:00:00', @p129='True', @p130='10', @p131='2026-04-24T00:00:00.0000000+05:30', @p132='14:00:00', @p133='2026-03-17T04:34:06.3497524Z', @p134='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p135='11:00:00', @p136='True', @p137='10', @p138='2026-04-27T00:00:00.0000000+05:30', @p139='10:00:00', @p140='2026-03-17T04:34:06.3497525Z', @p141='61cc9a7c-b075-4c7d-9717-584b31e92a6f' (Nullable = false) (Size = 450), @p142='15:00:00', @p143='True', @p144='10', @p145='2026-04-27T00:00:00.0000000+05:30', @p146='14:00:00'], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+MERGE [VisitSlots] USING (
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, 0),
+(@p7, @p8, @p9, @p10, @p11, @p12, @p13, 1),
+(@p14, @p15, @p16, @p17, @p18, @p19, @p20, 2),
+(@p21, @p22, @p23, @p24, @p25, @p26, @p27, 3),
+(@p28, @p29, @p30, @p31, @p32, @p33, @p34, 4),
+(@p35, @p36, @p37, @p38, @p39, @p40, @p41, 5),
+(@p42, @p43, @p44, @p45, @p46, @p47, @p48, 6),
+(@p49, @p50, @p51, @p52, @p53, @p54, @p55, 7),
+(@p56, @p57, @p58, @p59, @p60, @p61, @p62, 8),
+(@p63, @p64, @p65, @p66, @p67, @p68, @p69, 9),
+(@p70, @p71, @p72, @p73, @p74, @p75, @p76, 10),
+(@p77, @p78, @p79, @p80, @p81, @p82, @p83, 11),
+(@p84, @p85, @p86, @p87, @p88, @p89, @p90, 12),
+(@p91, @p92, @p93, @p94, @p95, @p96, @p97, 13),
+(@p98, @p99, @p100, @p101, @p102, @p103, @p104, 14),
+(@p105, @p106, @p107, @p108, @p109, @p110, @p111, 15),
+(@p112, @p113, @p114, @p115, @p116, @p117, @p118, 16),
+(@p119, @p120, @p121, @p122, @p123, @p124, @p125, 17),
+(@p126, @p127, @p128, @p129, @p130, @p131, @p132, 18),
+(@p133, @p134, @p135, @p136, @p137, @p138, @p139, 19),
+(@p140, @p141, @p142, @p143, @p144, @p145, @p146, 20)) AS i ([CreatedAt], [CreatedByAdminId], [EndTime], [IsActive], [MaxCapacity], [SlotDate], [StartTime], _Position) ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([CreatedAt], [CreatedByAdminId], [EndTime], [IsActive], [MaxCapacity], [SlotDate], [StartTime])
+VALUES (i.[CreatedAt], i.[CreatedByAdminId], i.[EndTime], i.[IsActive], i.[MaxCapacity], i.[SlotDate], i.[StartTime])
+OUTPUT INSERTED.[SlotId], INSERTED.[CurrentBookings], i._Position;
+2026-03-17 10:04:06.500 +05:30 [INF] Database migration and seeding completed successfully.
+2026-03-17 10:04:06.517 +05:30 [INF] Creating key {c7ec995d-858e-4fb7-a620-985433302d13} with creation date 2026-03-17 04:34:06Z, activation date 2026-03-17 04:34:06Z, and expiration date 2026-06-15 04:34:06Z.
+2026-03-17 10:04:06.534 +05:30 [INF] Writing data to file 'C:\Users\HP\AppData\Local\ASP.NET\DataProtection-Keys\key-c7ec995d-858e-4fb7-a620-985433302d13.xml'.
+2026-03-17 10:04:06.626 +05:30 [INF] Now listening on: http://localhost:5000
+2026-03-17 10:04:06.630 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-17 10:04:06.632 +05:30 [INF] Hosting environment: Development
+2026-03-17 10:04:06.633 +05:30 [INF] Content root path: C:\Users\HP\Desktop\Adarsh Yadav Project\PrisonerPortal

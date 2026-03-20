@@ -1,0 +1,92 @@
+@model IEnumerable<PrisonerPortal.Models.Entities.SupportRequest>
+@{
+    ViewData["Title"] = "My Requests";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="font-serif fw-bold mb-0">Query Tracker</h2>
+        <p class="text-muted mb-0">Track responses to your support requests and inquiries.</p>
+    </div>
+    <a asp-action="SubmitRequest" class="btn btn-accent text-white fw-bold shadow-sm">
+        <i class="fa-solid fa-plus me-2"></i> New Query
+    </a>
+</div>
+
+<div class="card content-card p-0 border-top border-4 border-accent">
+    <div class="table-responsive">
+        <table class="table table-custom table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Tracking #</th>
+                    <th>Subject</th>
+                    <th>Regarding</th>
+                    <th>Status</th>
+                    <th>Submitted On</th>
+                    <th class="text-end">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var req in Model.OrderByDescending(r => r.CreatedAt))
+                    {
+                        <tr data-href="/Family/RequestDetail/@req.RequestId" class="clickable">
+                            <td class="font-mono fw-bold text-primary align-middle">@req.RequestCode</td>
+                            <td class="align-middle">
+                                <div class="fw-bold text-dark text-truncate" style="max-width:300px;">@req.Subject</div>
+                                <span class="badge bg-light text-muted border mt-1">@req.Category</span>
+                            </td>
+                            <td class="align-middle">
+                                @if (req.Prisoner != null)
+                                {
+                                    <div class="fw-semibold"><i class="fa-solid fa-user-lock me-1 text-muted"></i>@req.Prisoner.FullName</div>
+                                    <small class="font-mono text-muted">@req.Prisoner.PrisonerCode</small>
+                                }
+                                else
+                                {
+                                    <span class="text-muted fst-italic">General Inquiry</span>
+                                }
+                            </td>
+                            <td class="align-middle">
+                                @{
+                                    var statusClass = req.Status switch
+                                    {
+                                        "Open" => "pending",
+                                        "InProgress" => "active",
+                                        "Resolved" => "completed",
+                                        "Closed" => "low",
+                                        _ => "low"
+                                    };
+                                }
+                                <span class="badge-status @statusClass d-inline-block shadow-sm">
+                                    @req.Status
+                                </span>
+                            </td>
+                            <td class="text-muted small align-middle">
+                                @req.CreatedAt.ToString("MMM dd, yyyy")
+                            </td>
+                            <td class="text-end align-middle">
+                                <a asp-action="RequestDetail" asp-route-id="@req.RequestId" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="View Full Tracker">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state p-5">
+                                <i class="fa-regular fa-comments empty-state-icon opacity-50"></i>
+                                <h6>No support requests found.</h6>
+                                <p class="text-muted small">You haven't submitted any queries or requests yet.</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

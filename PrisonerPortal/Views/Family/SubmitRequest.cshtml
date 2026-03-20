@@ -1,0 +1,90 @@
+@model PrisonerPortal.Models.ViewModels.SubmitRequestViewModel
+@{
+    ViewData["Title"] = "Submit Request";
+}
+
+<div class="row w-100 m-0 mb-4">
+    <div class="col-12 col-xl-8 mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <a asp-action="MyRequests" class="btn btn-sm btn-light text-muted mb-2"><i class="fa-solid fa-arrow-left me-2"></i>My Requests Tracker</a>
+                <h2 class="font-serif fw-bold mb-0">Submit Official Query</h2>
+                <p class="text-muted mb-0">Contact facility administration regarding property, medical needs, or general support.</p>
+            </div>
+        </div>
+
+        <div class="card content-card border-top border-4 border-accent">
+            <form asp-action="SubmitRequest" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4 p-3 bg-danger bg-opacity-10 rounded"></div>
+
+                <div class="mb-4">
+                    <label asp-for="PrisonerId" class="form-label fw-semibold text-muted small text-uppercase">Regarding Inmate (Optional)</label>
+                    <select asp-for="PrisonerId" class="form-select border-primary shadow-sm bg-light">
+                        <option value="0">General Inquiry (Not related to specific inmate)</option>
+                        @foreach(var prisoner in Model.LinkedPrisoners)
+                        {
+                            if(Model.PrisonerId == prisoner.PrisonerId)
+                            {
+                                <option value="@prisoner.PrisonerId" selected>@prisoner.Prisoner.FullName (@prisoner.Prisoner.PrisonerCode)</option>
+                            }
+                            else
+                            {
+                                <option value="@prisoner.PrisonerId">@prisoner.Prisoner.FullName (@prisoner.Prisoner.PrisonerCode)</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="PrisonerId" class="field-validation-error"></span>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label asp-for="Category" class="form-label fw-semibold text-muted small text-uppercase">Query Category</label>
+                        <select asp-for="Category" class="form-select shadow-sm" required>
+                            <option value="" disabled selected>Select category...</option>
+                            <option value="Medical Info">Medical Information/Alert</option>
+                            <option value="Property/Funds">Property & Funds</option>
+                            <option value="Legal/Counsel">Legal Counsel Contact</option>
+                            <option value="Visit Issue">Issue with Visit</option>
+                            <option value="General Complaint">General Complaint</option>
+                            <option value="Other Support">Other Support Request</option>
+                        </select>
+                        <span asp-validation-for="Category" class="field-validation-error"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Priority" class="form-label fw-semibold text-muted small text-uppercase">Priority Level</label>
+                        <select asp-for="Priority" class="form-select shadow-sm">
+                            <option value="Low">Low (Routine info 5-7 days)</option>
+                            <option value="Medium" selected>Medium (Standard 2-3 days)</option>
+                            <option value="High">High (Urgent matter 24-48 hours)</option>
+                            <option value="Urgent">Urgent (Medical emergency only)</option>
+                        </select>
+                        <span asp-validation-for="Priority" class="field-validation-error"></span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Subject" class="form-label fw-semibold text-muted small text-uppercase">Brief Subject</label>
+                    <input asp-for="Subject" class="form-control form-control-lg shadow-sm" placeholder="Summarize your query..." />
+                    <span asp-validation-for="Subject" class="field-validation-error"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Description" class="form-label fw-semibold text-muted small text-uppercase">Detailed Description</label>
+                    <textarea asp-for="Description" class="form-control shadow-sm" rows="6" placeholder="Provide all necessary details to help staff address your query quickly..."></textarea>
+                    <span asp-validation-for="Description" class="field-validation-error"></span>
+                    <div class="form-text mt-2"><i class="fa-solid fa-shield-halved text-success me-1"></i> Your message is securely transmitted to facility administration.</div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-5 pt-3 border-top">
+                    <button type="submit" class="btn btn-accent px-5 py-3 text-white fw-bold shadow-lg">
+                        <i class="fa-solid fa-paper-plane me-2"></i> Submit Official Query
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

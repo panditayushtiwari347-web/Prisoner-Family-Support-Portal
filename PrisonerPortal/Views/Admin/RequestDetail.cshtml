@@ -1,0 +1,189 @@
+@model PrisonerPortal.Models.Entities.SupportRequest
+@{
+    ViewData["Title"] = "Request Details";
+    var statusClass = Model.Status switch
+    {
+        "Open" => "pending",
+        "InProgress" => "active",
+        "Resolved" => "completed",
+        "Closed" => "low",
+        _ => "low"
+    };
+}
+
+<div class="mb-4">
+    <a asp-action="Requests" class="btn btn-sm btn-light text-muted mb-3"><i class="fa-solid fa-arrow-left me-2"></i>Back to Requests</a>
+    <div class="d-flex justify-content-between align-items-start">
+        <div>
+            <h2 class="font-serif fw-bold mb-1">Request: <span class="font-mono text-primary">@Model.RequestCode</span></h2>
+            <div class="d-flex gap-2 flex-wrap">
+                <span class="badge bg-secondary">@Model.Category</span>
+                <span class="badge bg-light text-dark border"><i class="fa-regular fa-clock me-1"></i>@Model.CreatedAt.ToString("f")</span>
+            </div>
+        </div>
+        <div class="text-end d-flex flex-column gap-2">
+            <span class="badge-status @Model.Priority.ToLower() fs-6 px-3 shadow-sm">Priority: @Model.Priority</span>
+            <span class="badge-status @statusClass fs-6 px-3 shadow-sm">Status: @Model.Status</span>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-8">
+        <!-- Description Card -->
+        <div class="card content-card mb-4 border-top border-4 border-accent">
+            <h5 class="fw-bold mb-3 border-bottom pb-2">@Model.Subject</h5>
+            <div class="bg-surface p-4 rounded text-dark" style="white-space: pre-wrap; font-size: 1.05rem; line-height: 1.6;">@Model.Description</div>
+        </div>
+
+        <!-- Previous Admin Response (shown if exists, always editable) -->
+        @if (!string.IsNullOrEmpty(Model.AdminResponse))
+        {
+            <div class="card content-card border-top border-4 border-success bg-success bg-opacity-10 shadow-sm mb-4">
+                <div class="d-flex align-items-center mb-3 border-bottom border-success pb-2 border-opacity-25">
+                    <div class="avatar bg-success text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-success mb-0">Previous Official Response</h6>
+                        <small class="text-success text-opacity-75">Responded by Administration &bull; @(Model.UpdatedAt.ToString("f"))</small>
+                    </div>
+                </div>
+                <div class="text-dark" style="white-space: pre-wrap; line-height: 1.6;">@Model.AdminResponse</div>
+            </div>
+        }
+
+        <!-- Admin Action Form — ALWAYS VISIBLE so admin can update status anytime -->
+        @if (Model.Status != "Resolved" && Model.Status != "Closed")
+        {
+            <div class="card content-card">
+                <h5 class="fw-bold mb-4 border-bottom pb-2">
+                    <i class="fa-solid fa-reply text-primary me-2"></i>
+                    @(string.IsNullOrEmpty(Model.AdminResponse) ? "Provide Response" : "Update / Add Response")
+                </h5>
+                <form asp-action="UpdateRequestStatus" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="RequestId" value="@Model.RequestId" />
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold text-muted small text-uppercase">Update Status</label>
+                            <select name="Status" class="form-select">
+                                @if (Model.Status == "Open") { <option value="Open" selected>🔴 Open (Needs Action)</option> } else { <option value="Open">🔴 Open (Needs Action)</option> }
+                                @if (Model.Status == "InProgress") { <option value="InProgress" selected>🟡 In Progress (Investigating)</option> } else { <option value="InProgress">🟡 In Progress (Investigating)</option> }
+                                @if (Model.Status == "Resolved") { <option value="Resolved" selected>🟢 Resolved (Closed successfully)</option> } else { <option value="Resolved">🟢 Resolved (Closed successfully)</option> }
+                                @if (Model.Status == "Closed") { <option value="Closed" selected>⚫ Closed (No action taken)</option> } else { <option value="Closed">⚫ Closed (No action taken)</option> }
+                            </select>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-end">
+                            <div class="alert alert-info py-2 px-3 mb-0 w-100 small">
+                                <i class="fa-solid fa-circle-info me-1"></i>
+                                Updating status will notify the family member automatically.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-muted small text-uppercase">
+                            Response Message / Notes
+                            <span class="text-danger">*</span>
+                        </label>
+                        <textarea name="Response" rows="5" class="form-control" 
+                                  placeholder="Type official response to family here..." required>@Model.AdminResponse</textarea>
+                        <div class="form-text"><i class="fa-solid fa-circle-info me-1"></i>Your response will be visible to the family member on their portal.</div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <a asp-action="Requests" class="btn btn-light">Cancel</a>
+                        <button type="submit" class="btn btn-primary px-4 fw-bold shadow-sm">
+                            <i class="fa-solid fa-paper-plane me-2"></i>Submit Update
+                        </button>
+                    </div>
+                </form>
+            </div>
+        }
+        else
+        {
+            <!-- Resolved/Closed — allow reopening -->
+            <div class="card content-card border-top border-4 border-secondary bg-light">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 class="fw-bold mb-1"><i class="fa-solid fa-lock text-secondary me-2"></i>
+                            This request is @Model.Status.
+                        </h6>
+                        <small class="text-muted">You can reopen it if further action is needed.</small>
+                    </div>
+                    <form asp-action="UpdateRequestStatus" method="post" class="ms-3">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="RequestId" value="@Model.RequestId" />
+                        <input type="hidden" name="Status" value="Open" />
+                        <input type="hidden" name="Response" value="Reopened by administrator." />
+                        <button type="submit" class="btn btn-outline-warning fw-bold"
+                                onclick="return confirm('Reopen this request?')">
+                            <i class="fa-solid fa-rotate-left me-2"></i>Reopen Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Sidebar Info -->
+    <div class="col-lg-4">
+        <!-- Submitter Details -->
+        <div class="card content-card p-0 mb-4">
+            <div class="card-header bg-white p-4 border-bottom">
+                <h6 class="fw-bold font-serif mb-0"><i class="fa-solid fa-user text-primary me-2"></i>Submitter Details</h6>
+            </div>
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; font-size: 1.25rem;">
+                        <strong>@Model.User.FullName.Substring(0, 1).ToUpper()</strong>
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark fs-5">@Model.User.FullName</div>
+                        <span class="badge bg-light text-dark border">Family Member</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="text-muted small fw-bold text-uppercase">Email Address</div>
+                    <div class="fw-semibold"><i class="fa-solid fa-envelope me-2 text-muted"></i><a href="mailto:@Model.User.Email" class="text-decoration-none">@Model.User.Email</a></div>
+                </div>
+                <div class="mb-3">
+                    <div class="text-muted small fw-bold text-uppercase">Phone Number</div>
+                    <div class="fw-semibold"><i class="fa-solid fa-phone me-2 text-muted"></i>@(Model.User.PhoneNumber ?? "Not provided")</div>
+                </div>
+
+                @if (Model.Prisoner != null)
+                {
+                    <hr class="text-muted opacity-25 my-3" />
+                    <div class="mb-0">
+                        <div class="text-muted small fw-bold text-uppercase mb-2">Related Prisoner</div>
+                        <div class="bg-surface p-3 rounded border">
+                            <div class="fw-bold text-dark"><i class="fa-solid fa-user-lock me-2 text-primary"></i>@Model.Prisoner.FullName</div>
+                            <div class="font-mono small text-muted mt-1">@Model.Prisoner.PrisonerCode</div>
+                            <div class="mt-2 text-end">
+                                <a asp-action="ViewPrisoner" asp-route-id="@Model.PrisonerId" class="btn btn-sm btn-outline-primary py-0">View Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Assignment Info -->
+        <div class="card content-card p-4 @(string.IsNullOrEmpty(Model.AssignedAdminId) ? "border-top border-4 border-warning bg-warning bg-opacity-10" : "border-top border-4 border-success bg-success bg-opacity-10")">
+            @if (!string.IsNullOrEmpty(Model.AssignedAdminId))
+            {
+                <div class="text-muted small fw-bold text-uppercase mb-2"><i class="fa-solid fa-user-shield me-2"></i>Assigned Staff</div>
+                <div class="fw-semibold text-success"><i class="fa-solid fa-circle-check text-success me-2"></i>Assigned to Admin</div>
+            }
+            else
+            {
+                <div class="text-muted small fw-bold text-uppercase mb-2"><i class="fa-solid fa-triangle-exclamation me-2 text-warning"></i>Unassigned</div>
+                <div class="text-dark small">This request has not been assigned to any admin yet. Submitting a response will auto-assign it to you.</div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<ul class="nav flex-column mb-auto">
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Dashboard" ? "active" : "")" asp-controller="Admin" asp-action="Dashboard">
+            <i class="fa-solid fa-chart-line nav-icon"></i> Dashboard
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Users" ? "active" : "")" asp-controller="Admin" asp-action="Users">
+            <i class="fa-solid fa-users nav-icon"></i> Users
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Prisoners" ? "active" : "")" asp-controller="Admin" asp-action="Prisoners">
+            <i class="fa-solid fa-user-lock nav-icon"></i> Prisoners
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "FamilyLinks" ? "active" : "")" asp-controller="Admin" asp-action="FamilyLinks">
+            <i class="fa-solid fa-link nav-icon"></i> Family Links
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "VisitSlots" ? "active" : "")" asp-controller="Admin" asp-action="VisitSlots">
+            <i class="fa-regular fa-calendar-plus nav-icon"></i> Visit Slots
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Appointments" ? "active" : "")" asp-controller="Admin" asp-action="Appointments">
+            <i class="fa-solid fa-calendar-check nav-icon"></i> Appointments
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Requests" ? "active" : "")" asp-controller="Admin" asp-action="Requests">
+            <i class="fa-solid fa-inbox nav-icon"></i> Support Requests
+        </a>
+    </li>
+</ul>

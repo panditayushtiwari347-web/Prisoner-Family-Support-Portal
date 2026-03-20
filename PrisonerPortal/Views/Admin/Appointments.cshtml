@@ -1,0 +1,212 @@
+@model IEnumerable<PrisonerPortal.Models.Entities.Appointment>
+@{
+    ViewData["Title"] = "Appointment Management";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="font-serif fw-bold mb-0">Visit Appointments</h2>
+        <p class="text-muted mb-0">Review, approve, and finalize family visits.</p>
+    </div>
+    <div class="text-muted small">
+        Total: <strong>@Model.Count()</strong> &bull;
+        Pending: <strong class="text-warning">@Model.Count(a => a.Status == "Pending")</strong> &bull;
+        Approved: <strong class="text-success">@Model.Count(a => a.Status == "Approved")</strong>
+    </div>
+</div>
+
+<div class="card content-card p-0 border-top border-4 border-primary">
+    <!-- Filter tabs -->
+    <div class="card-header bg-white p-3 border-bottom d-flex gap-2 align-items-center flex-wrap">
+        <button class="btn btn-primary btn-sm rounded-pill px-3 filter-btn active" data-filter="all">All</button>
+        <button class="btn btn-outline-warning btn-sm rounded-pill px-3 filter-btn" data-filter="Pending">Pending</button>
+        <button class="btn btn-outline-success btn-sm rounded-pill px-3 filter-btn" data-filter="Approved">Approved</button>
+        <button class="btn btn-outline-secondary btn-sm rounded-pill px-3 filter-btn" data-filter="Completed">Completed</button>
+        <button class="btn btn-outline-danger btn-sm rounded-pill px-3 filter-btn" data-filter="Rejected">Rejected</button>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-custom table-hover mb-0" id="appointmentsTable">
+            <thead>
+                <tr>
+                    <th>Ref #</th>
+                    <th>Family / Visitors</th>
+                    <th>Prisoner</th>
+                    <th>Schedule</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var app in Model.OrderByDescending(a => a.BookedAt))
+                {
+                    var badgeClass = app.Status switch
+                    {
+                        "Pending" => "pending",
+                        "Approved" => "approved",
+                        "Rejected" => "rejected",
+                        "Cancelled" => "rejected",
+                        "Completed" => "completed",
+                        _ => "low"
+                    };
+                    <tr data-status="@app.Status">
+                        <td class="font-mono fw-semibold text-primary">
+                            @app.AppointmentCode<br />
+                            <small class="text-muted fw-normal">@app.BookedAt.ToString("MM/dd")</small>
+                        </td>
+                        <td>
+                            <div class="fw-bold">@app.User.FullName</div>
+                            <small class="text-muted"><i class="fa-solid fa-users me-1"></i>@app.NumVisitors visitors</small>
+                            @if (!string.IsNullOrEmpty(app.VisitorNames))
+                            {
+                                <div class="text-muted small" style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">(@app.VisitorNames)</div>
+                            }
+                        </td>
+                        <td>
+                            <div class="fw-semibold">@app.Prisoner.FullName</div>
+                            <small class="font-mono text-muted">@app.Prisoner.PrisonerCode</small>
+                        </td>
+                        <td>
+                            <div class="fw-semibold text-dark"><i class="fa-regular fa-calendar me-2 text-muted"></i>@app.Slot!.SlotDate.ToString("MMM dd, yyyy")</div>
+                            <small class="text-muted"><i class="fa-regular fa-clock me-2"></i>@app.Slot.StartTime.ToString(@"hh\:mm") - @app.Slot.EndTime.ToString(@"hh\:mm")</small>
+                        </td>
+                        <td>
+                            <span class="badge-status @badgeClass">@app.Status</span>
+                        </td>
+                        <td class="text-end">
+                            @if (app.Status == "Pending")
+                            {
+                                <form asp-action="ApproveAppointment" method="post" class="d-inline"
+                                      onsubmit="return confirm('Approve this visit appointment?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@app.AppointmentId" />
+                                    <button type="submit" class="btn btn-sm btn-success shadow-sm" title="Approve Visit">
+                                        <i class="fa-solid fa-check me-1"></i>Approve
+                                    </button>
+                                </form>
+                                <!-- Reject button triggers modal -->
+                                <button class="btn btn-sm btn-outline-danger ms-1 shadow-sm"
+                                        title="Reject Visit"
+                                        onclick="openRejectModal(@app.AppointmentId)">
+                                    <i class="fa-solid fa-xmark me-1"></i>Reject
+                                </button>
+                            }
+                            else if (app.Status == "Approved" && app.Slot.SlotDate <= DateTime.Today)
+                            {
+                                <form asp-action="CompleteAppointment" method="post" class="d-inline"
+                                      onsubmit="return confirm('Mark this visit as completed?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@app.AppointmentId" />
+                                    <button type="submit" class="btn btn-sm btn-primary shadow-sm" title="Mark Completed">
+                                        <i class="fa-solid fa-flag-checkered me-1"></i>Complete
+                                    </button>
+                                </form>
+                            }
+                            else if (app.Status == "Rejected" || app.Status == "Completed")
+                            {
+                                <span class="text-muted small fst-italic">No action</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Reject Appointment Modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0 rounded-3">
+            <div class="modal-header border-0 bg-danger text-white rounded-top-3">
+                <h5 class="modal-title fw-bold" id="rejectModalLabel">
+                    <i class="fa-solid fa-ban me-2"></i>Reject Appointment
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="RejectAppointment" method="post" id="rejectForm">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="rejectAppointmentId" value="" />
+                <div class="modal-body p-4">
+                    <div class="alert alert-warning py-2 mb-3">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                        The family member will be notified of this rejection.
+                    </div>
+                    <label class="form-label fw-semibold">Reason for Rejection <span class="text-danger">*</span></label>
+                    <select name="reason" class="form-select mb-3" id="rejectReasonSelect" onchange="handleReasonChange(this)">
+                        <option value="">-- Select a reason --</option>
+                        <option value="Slot is fully booked.">Slot fully booked</option>
+                        <option value="Visitor verification incomplete.">Visitor verification incomplete</option>
+                        <option value="Prisoner not available on this date.">Prisoner not available</option>
+                        <option value="Security concerns identified.">Security concerns</option>
+                        <option value="Custom">Other (type below)</option>
+                    </select>
+                    <textarea id="customReason" class="form-control d-none" rows="3"
+                              placeholder="Enter custom rejection reason..."></textarea>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger fw-bold px-4">
+                        <i class="fa-solid fa-xmark me-2"></i>Confirm Rejection
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Filter tabs
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'btn-primary', 'btn-warning', 'btn-success', 'btn-secondary', 'btn-danger');
+                    b.classList.add('btn-outline-secondary');
+                });
+                this.classList.remove('btn-outline-secondary');
+                this.classList.add('active', 'btn-primary');
+
+                const filter = this.dataset.filter;
+                document.querySelectorAll('#appointmentsTable tbody tr').forEach(row => {
+                    row.style.display = (filter === 'all' || row.dataset.status === filter) ? '' : 'none';
+                });
+            });
+        });
+
+        function openRejectModal(appointmentId) {
+            document.getElementById('rejectAppointmentId').value = appointmentId;
+            document.getElementById('rejectReasonSelect').value = '';
+            document.getElementById('customReason').classList.add('d-none');
+            new bootstrap.Modal(document.getElementById('rejectModal')).show();
+        }
+
+        function handleReasonChange(select) {
+            const custom = document.getElementById('customReason');
+            if (select.value === 'Custom') {
+                custom.classList.remove('d-none');
+                custom.required = true;
+            } else {
+                custom.classList.add('d-none');
+                custom.required = false;
+            }
+        }
+
+        // Before submitting the form, if Custom, use the textarea value as reason
+        document.getElementById('rejectForm').addEventListener('submit', function (e) {
+            const select = document.getElementById('rejectReasonSelect');
+            const custom = document.getElementById('customReason');
+            if (select.value === 'Custom') {
+                if (!custom.value.trim()) {
+                    e.preventDefault();
+                    custom.classList.add('is-invalid');
+                    return;
+                }
+                select.value = custom.value.trim();
+            } else if (!select.value) {
+                e.preventDefault();
+                select.classList.add('is-invalid');
+                return;
+            }
+        });
+    </script>
+}

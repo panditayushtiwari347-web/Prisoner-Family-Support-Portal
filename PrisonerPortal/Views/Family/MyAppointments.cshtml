@@ -1,0 +1,109 @@
+@model IEnumerable<PrisonerPortal.Models.Entities.Appointment>
+@{
+    ViewData["Title"] = "My Scheduled Visits";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="font-serif fw-bold mb-0">My Visit Schedule</h2>
+        <p class="text-muted mb-0">Track and manage your upcoming and past facility visits.</p>
+    </div>
+    <a asp-action="BookVisit" class="btn btn-primary fw-bold shadow-sm">
+        <i class="fa-solid fa-plus me-2"></i> Book New Visit
+    </a>
+</div>
+
+<div class="card content-card p-0 border-top border-4 border-primary">
+    <div class="card-header bg-white p-4 border-bottom d-flex gap-3 align-items-center flex-wrap">
+        <button class="btn btn-primary btn-sm rounded-pill px-3 active">All</button>
+        <button class="btn btn-outline-secondary btn-sm rounded-pill px-3">Upcoming</button>
+        <button class="btn btn-outline-secondary btn-sm rounded-pill px-3">Pending Approval</button>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-custom table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Reference</th>
+                    <th>Inmate</th>
+                    <th>Date & Time</th>
+                    <th>Visitors</th>
+                    <th>Status</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var app in Model.OrderByDescending(a => a.Slot?.SlotDate).ThenBy(a => a.Slot?.StartTime))
+                    {
+                        <tr>
+                            <td class="font-mono fw-semibold text-primary align-middle">
+                                @app.AppointmentCode
+                                <div class="text-muted small fw-normal font-sans">Booked @app.BookedAt.ToString("MM/dd/yy")</div>
+                            </td>
+                            <td class="align-middle">
+                                <div class="fw-bold text-dark">@app.Prisoner.FullName</div>
+                                <small class="text-muted">@app.Prisoner.PrisonerCode</small>
+                            </td>
+                            <td class="align-middle">
+                                @if (app.Slot != null)
+                                {
+                                    <div class="fw-semibold text-dark"><i class="fa-regular fa-calendar me-2 text-primary"></i>@app.Slot.SlotDate.ToString("ddd, MMM dd, yyyy")</div>
+                                    <div class="text-muted small"><i class="fa-regular fa-clock me-2"></i>@app.Slot.StartTime.ToString(@"hh\:mm") - @app.Slot.EndTime.ToString(@"hh\:mm")</div>
+                                }
+                            </td>
+                            <td class="align-middle">
+                                <div><i class="fa-solid fa-users me-1 text-muted"></i> @app.NumVisitors</div>
+                            </td>
+                            <td class="align-middle">
+                                @{
+                                    var badgeClass = app.Status switch
+                                    {
+                                        "Pending" => "pending",
+                                        "Approved" => "approved",
+                                        "Rejected" => "rejected",
+                                        "Cancelled" => "rejected",
+                                        "Completed" => "completed",
+                                        _ => "low"
+                                    };
+                                }
+                                <span class="badge-status @badgeClass shadow-sm border border-white">@app.Status</span>
+                                @if(app.Status == "Rejected" && !string.IsNullOrEmpty(app.AdminNotes))
+                                {
+                                    <div class="small text-danger mt-1" data-bs-toggle="tooltip" title="@app.AdminNotes"><i class="fa-solid fa-circle-info me-1"></i>Hover reason</div>
+                                }
+                            </td>
+                            <td class="text-end align-middle">
+                                @if (app.Status == "Pending" || (app.Status == "Approved" && app.Slot?.SlotDate > DateTime.UtcNow.Date.AddDays(1)))
+                                {
+                                    <form asp-action="CancelAppointment" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to cancel this visit request?');">
+                                        <input type="hidden" name="id" value="@app.AppointmentId" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger shadow-sm">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                }
+                                else if (app.Status == "Approved")
+                                {
+                                    <button class="btn btn-sm btn-light text-muted border" disabled><i class="fa-solid fa-lock me-1"></i>Locked</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state p-5">
+                                <i class="fa-regular fa-calendar-xmark empty-state-icon opacity-50"></i>
+                                <h6>No visits found in your history.</h6>
+                                <p class="text-muted small mb-0">When you book a visit with an inmate, it will appear here.</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+@model IEnumerable<PrisonerPortal.Models.Entities.SupportRequest>
+@{
+    ViewData["Title"] = "Support Requests";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="font-serif fw-bold mb-0">Support & Inquiries</h2>
+        <p class="text-muted mb-0">Manage family queries, complaints, and assistance requests.</p>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white border-0 shadow-sm h-100">
+            <div class="card-body text-center py-4">
+                <i class="fa-solid fa-inbox fs-2 mb-2 opacity-75"></i>
+                <h2 class="fw-bold mb-0">@Model.Count()</h2>
+                <div class="small text-white-50 text-uppercase fw-semibold mt-1">Total Requests</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-danger text-white border-0 shadow-sm h-100">
+            <div class="card-body text-center py-4">
+                <i class="fa-solid fa-triangle-exclamation fs-2 mb-2 opacity-75"></i>
+                <h2 class="fw-bold mb-0">@Model.Count(r => r.Priority == "High" || r.Priority == "Urgent")</h2>
+                <div class="small text-white-50 text-uppercase fw-semibold mt-1">High/Urgent Priority</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark border-0 shadow-sm h-100">
+            <div class="card-body text-center py-4">
+                <i class="fa-solid fa-hourglass-half fs-2 mb-2 opacity-75"></i>
+                <h2 class="fw-bold mb-0">@Model.Count(r => r.Status == "Open")</h2>
+                <div class="small text-black-50 text-uppercase fw-bold mt-1">Open/New</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white border-0 shadow-sm h-100">
+            <div class="card-body text-center py-4">
+                <i class="fa-solid fa-check-double fs-2 mb-2 opacity-75"></i>
+                <h2 class="fw-bold mb-0">@Model.Count(r => r.Status == "Resolved")</h2>
+                <div class="small text-white-50 text-uppercase fw-semibold mt-1">Resolved</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card content-card p-0 border-top border-4 border-danger">
+    <div class="table-responsive">
+        <table class="table table-custom table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Req #</th>
+                    <th>Subject / Category</th>
+                    <th>Submitter</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Submitted</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var req in Model.OrderByDescending(r => r.CreatedAt))
+                {
+                    <tr data-href="/Admin/RequestDetail/@req.RequestId" class="clickable">
+                        <td class="font-mono fw-bold text-primary">@req.RequestCode</td>
+                        <td>
+                            <div class="fw-semibold text-dark">@req.Subject</div>
+                            <small class="badge bg-light text-muted border">@req.Category</small>
+                        </td>
+                        <td>
+                            <div class="fw-semibold">@req.User.FullName</div>
+                            <small class="text-muted">@req.User.Email</small>
+                        </td>
+                        <td>
+                            <span class="badge-status @req.Priority.ToLower()">@req.Priority</span>
+                        </td>
+                        <td>
+                            @{
+                                var statusClass = req.Status switch
+                                {
+                                    "Open" => "pending",
+                                    "InProgress" => "active",
+                                    "Resolved" => "completed",
+                                    "Closed" => "low",
+                                    _ => "low"
+                                };
+                            }
+                            <span class="badge-status @statusClass d-inline-block shadow-sm">
+                                @if(req.Status == "Open"){<i class="fa-solid fa-circle me-1 small"></i>}
+                                @req.Status
+                            </span>
+                        </td>
+                        <td class="text-muted small">
+                            @req.CreatedAt.ToString("MMM dd, HH:mm")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

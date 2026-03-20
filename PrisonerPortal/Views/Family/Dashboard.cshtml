@@ -1,0 +1,186 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Family Home";
+    var linkedCount = ViewBag.LinkedCount ?? 0;
+    var upcomingVisits = ViewBag.UpcomingVisits ?? 0;
+    var openRequests = ViewBag.OpenRequests ?? 0;
+    var fullName = ViewBag.FullName ?? "Family Member";
+}
+
+<div class="mb-4">
+    <h2 class="font-serif fw-bold mb-1">Welcome back, @fullName</h2>
+    <p class="text-muted">Manage your family connections and upcoming visits here.</p>
+</div>
+
+@if (linkedCount == 0)
+{
+    <div class="alert alert-primary bg-primary bg-opacity-10 border-0 d-flex align-items-center p-4 mb-4 rounded-4 shadow-sm">
+        <div class="bg-white rounded-circle d-flex align-items-center justify-content-center text-primary shadow-sm me-4 flex-shrink-0" style="width: 60px; height: 60px; font-size: 1.5rem;">
+            <i class="fa-solid fa-link"></i>
+        </div>
+        <div>
+            <h4 class="fw-bold mb-1 text-primary">Link to an Inmate to Get Started</h4>
+            <p class="mb-3 text-dark text-opacity-75">You currently don't have any linked inmates. To book visits or interact with administration regarding a prisoner, you must first request a verified link.</p>
+            <a asp-action="SearchPrisoner" class="btn btn-primary fw-bold px-4 rounded-pill shadow-sm">
+                <i class="fa-solid fa-magnifying-glass me-2"></i> Find & Link Prisoner
+            </a>
+        </div>
+    </div>
+}
+
+<!-- Stat Cards Row -->
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="stat-card border-top border-4 border-primary">
+            <div class="d-flex align-items-center mb-3">
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                    <i class="fa-solid fa-user-lock"></i>
+                </div>
+                <div class="ms-3">
+                    <h6 class="text-muted fw-bold mb-0">Linked Inmates</h6>
+                </div>
+            </div>
+            <h2 class="font-serif fw-bold mb-0">@linkedCount</h2>
+            <div class="mt-3">
+                <a asp-action="SearchPrisoner" class="btn btn-sm btn-outline-primary rounded-pill px-3">Find & Link <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="stat-card border-top border-4 border-success">
+            <div class="d-flex align-items-center mb-3">
+                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <div class="ms-3">
+                    <h6 class="text-muted fw-bold mb-0">Upcoming Visits</h6>
+                </div>
+            </div>
+            <h2 class="font-serif fw-bold mb-0">@upcomingVisits</h2>
+            <div class="mt-3 d-flex gap-2">
+                <a asp-action="BookVisit" class="btn btn-sm btn-success rounded-pill px-3">Book Visit</a>
+                <a asp-action="MyAppointments" class="btn btn-sm btn-outline-success rounded-pill px-3">View All</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="stat-card border-top border-4 border-accent">
+            <div class="d-flex align-items-center mb-3">
+                <div class="stat-icon bg-accent bg-opacity-10 text-accent">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <div class="ms-3">
+                    <h6 class="text-muted fw-bold mb-0">Active Requests</h6>
+                </div>
+            </div>
+            <h2 class="font-serif fw-bold mb-0">@openRequests</h2>
+            <div class="mt-3 d-flex gap-2">
+                <a asp-action="SubmitRequest" class="btn btn-sm btn-accent rounded-pill px-3 shadow-none">New Request</a>
+                <a asp-action="MyRequests" class="btn btn-sm btn-outline-secondary rounded-pill px-3">View All</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Upcoming Visits List -->
+    <div class="col-lg-6">
+        <div class="card content-card p-0 h-100">
+            <div class="card-header bg-white p-4 border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold font-serif mb-0"><i class="fa-regular fa-calendar text-success me-2"></i> Your Schedule</h5>
+                <a asp-action="MyAppointments" class="btn btn-sm btn-light">See All</a>
+            </div>
+            <div class="card-body p-0">
+                @if (ViewBag.RecentAppointments != null && ((IEnumerable<dynamic>)ViewBag.RecentAppointments).Any())
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach (var app in ViewBag.RecentAppointments)
+                        {
+                            <li class="list-group-item p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <div class="fw-bold text-dark fs-5 mb-1">Visit with @app.Prisoner.FullName</div>
+                                        <div class="text-muted"><i class="fa-regular fa-calendar me-2"></i>@app.Slot.SlotDate.ToString("ddd, MMM dd, yyyy")</div>
+                                        <div class="text-muted"><i class="fa-regular fa-clock me-2"></i>@app.Slot.StartTime.ToString(@"hh\:mm") - @app.Slot.EndTime.ToString(@"hh\:mm")</div>
+                                    </div>
+                                    @{
+                                        var badgeClass = app.Status switch
+                                        {
+                                            "Pending" => "pending",
+                                            "Approved" => "approved",
+                                            "Rejected" => "rejected",
+                                            "Cancelled" => "rejected",
+                                            "Completed" => "completed",
+                                            _ => "low"
+                                        };
+                                    }
+                                    <span class="badge-status @badgeClass shadow-sm border border-white">@app.Status</span>
+                                </div>
+                                <div class="bg-surface p-3 mt-3 rounded d-flex justify-content-between align-items-center">
+                                    <span class="text-muted small">Ref: <span class="font-mono fw-bold text-dark">@app.AppointmentCode</span></span>
+                                    <span class="text-muted small"><i class="fa-solid fa-users me-1"></i> @app.NumVisitors visitors</span>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="empty-state p-5">
+                        <i class="fa-regular fa-calendar-check empty-state-icon text-success opacity-50"></i>
+                        <h6 class="fw-bold">No visits scheduled.</h6>
+                        <p class="text-muted small">Book a visit to see your linked family member.</p>
+                        <a asp-action="BookVisit" class="btn btn-primary mt-2">Book Now</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Requests List -->
+    <div class="col-lg-6">
+        <div class="card content-card p-0 h-100">
+            <div class="card-header bg-white p-4 border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold font-serif mb-0"><i class="fa-solid fa-inbox text-accent me-2"></i> Recent Queries</h5>
+                <a asp-action="MyRequests" class="btn btn-sm btn-light">See All</a>
+            </div>
+            <div class="card-body p-0">
+                @if (ViewBag.RecentRequests != null && ((IEnumerable<dynamic>)ViewBag.RecentRequests).Any())
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach (var req in ViewBag.RecentRequests)
+                        {
+                            <li class="list-group-item p-4">
+                                <a href="/Family/RequestDetail/@req.RequestId" class="text-decoration-none text-dark d-block">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div class="fw-bold text-truncate pe-3">@req.Subject</div>
+                                        @{
+                                            var statClass = req.Status == "Open" ? "pending" : (req.Status == "Resolved" ? "completed" : "approved");
+                                        }
+                                        <span class="badge-status @statClass ms-auto">@req.Status</span>
+                                    </div>
+                                    <div class="text-muted small mb-3">@req.Category • Submitted @req.CreatedAt.ToString("MMM dd")</div>
+                                    <div class="bg-surface p-3 rounded font-mono text-muted small d-flex justify-content-between">
+                                        <span>Tracker Code: @req.RequestCode</span>
+                                        <i class="fa-solid fa-chevron-right"></i>
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="empty-state p-5">
+                        <i class="fa-regular fa-comments empty-state-icon text-accent opacity-50"></i>
+                        <h6 class="fw-bold">No active requests.</h6>
+                        <p class="text-muted small">Need help? Submit a query to the administration.</p>
+                        <a asp-action="SubmitRequest" class="btn btn-outline-primary mt-2">Submit Query</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

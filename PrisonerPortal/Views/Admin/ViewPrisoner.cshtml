@@ -1,0 +1,151 @@
+@model PrisonerPortal.Models.Entities.Prisoner
+@{
+    ViewData["Title"] = "Prisoner Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <a asp-action="Prisoners" class="btn btn-sm btn-light text-muted mb-2"><i class="fa-solid fa-arrow-left me-2"></i>Back to Directory</a>
+        <h2 class="font-serif fw-bold mb-0">Prisoner File: @Model.PrisonerCode</h2>
+    </div>
+    
+    <div>
+        <form asp-action="UpdatePrisonerStatus" method="post" class="d-flex align-items-center">
+            <input type="hidden" name="id" value="@Model.PrisonerId" />
+            <select name="status" class="form-select form-select-sm fw-bold shadow-sm" style="width: auto; cursor: pointer; border-radius: 20px; padding-left: 15px; padding-right: 30px;" onchange="this.form.submit()">
+                <option value="Active" selected="@(Model.Status == "Active" ? "selected" : null)">🟢 Active</option>
+                <option value="Released" selected="@(Model.Status == "Released" ? "selected" : null)">⚪ Released</option>
+                <option value="Transferred" selected="@(Model.Status == "Transferred" ? "selected" : null)">🟠 Transferred</option>
+            </select>
+            @Html.AntiForgeryToken()
+        </form>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Left Column: Info -->
+    <div class="col-lg-8">
+        <div class="card content-card mb-4 border-top border-4 border-primary">
+            <h5 class="fw-bold border-bottom pb-3 mb-4"><i class="fa-solid fa-id-card text-primary me-2"></i> Identification</h5>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <div class="text-muted small fw-bold text-uppercase">Full Legal Name</div>
+                        <div class="fs-5 fw-semibold text-dark">@Model.FullName</div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="text-muted small fw-bold text-uppercase">Date of Birth & Gender</div>
+                        <div class="fw-semibold">@Model.DateOfBirth.ToString("MMMM dd, yyyy") (@Model.Gender)</div>
+                    </div>
+                </div>
+                <div class="col-md-6 border-start-md ps-md-4">
+                    <div class="mb-3">
+                        <div class="text-muted small fw-bold text-uppercase">Current Assignment</div>
+                        <div class="fw-semibold"><i class="fa-solid fa-building me-2 text-muted"></i>@Model.CellBlock</div>
+                        <div class="text-muted small"><i class="fa-solid fa-door-closed me-2 text-muted"></i>Cell @Model.CellNumber</div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="text-muted small fw-bold text-uppercase">System Entry Date</div>
+                        <div class="fw-semibold font-mono">@Model.CreatedAt.ToString("g")</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card content-card border-top border-4 border-danger">
+            <h5 class="fw-bold border-bottom pb-3 mb-4"><i class="fa-solid fa-gavel text-danger me-2"></i> Legal & Sentinel</h5>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="text-muted small fw-bold text-uppercase">Case Number</div>
+                    <div class="fs-5 fw-semibold font-mono text-dark">@Model.CaseNumber</div>
+                </div>
+                <div class="col-md-8">
+                    <div class="text-muted small fw-bold text-uppercase">Crime Category</div>
+                    <div class="fs-5 fw-semibold text-dark">@Model.CrimeCategory</div>
+                </div>
+            </div>
+            <div class="row mt-4 pt-3 border-top g-4">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-1">
+                        <i class="fa-regular fa-calendar-check text-success fs-4 me-3"></i>
+                        <div>
+                            <div class="text-muted small fw-bold text-uppercase">Sentence Start</div>
+                            <div class="fw-bold">@Model.SentenceStartDate.ToString("MMMM dd, yyyy")</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-1">
+                        <i class="fa-regular fa-calendar-xmark text-danger fs-4 me-3"></i>
+                        <div>
+                            <div class="text-muted small fw-bold text-uppercase">Sentence End / Projected Release</div>
+                            <div class="fw-bold text-danger">@Model.SentenceEndDate.ToString("MMMM dd, yyyy")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Links & History -->
+    <div class="col-lg-4">
+        <!-- Family Links -->
+        <div class="card content-card mb-4 p-0">
+            <div class="card-header bg-white p-4 border-bottom">
+                <h6 class="fw-bold font-serif mb-0"><i class="fa-solid fa-users text-accent me-2"></i> Verified Family Links</h6>
+            </div>
+            <div class="card-body p-0">
+                @{
+                    var verifiedLinks = Model.FamilyLinks.Where(l => l.IsVerified).ToList();
+                }
+                @if (verifiedLinks.Any())
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach (var link in verifiedLinks)
+                        {
+                            <li class="list-group-item p-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar bg-light text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">@link.User?.FullName</div>
+                                        <div class="text-muted small">@link.Relationship • <span class="font-mono">Linked @link.LinkedAt.ToString("MMM yyyy")</span></div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="p-4 text-center text-muted">
+                        <i class="fa-solid fa-user-xmark fs-3 mb-2 opacity-50"></i>
+                        <div>No verified family members.</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Recent Activity Quick Look -->
+        <div class="card content-card p-0 bg-surface">
+            <div class="card-header bg-transparent p-4 border-bottom">
+                <h6 class="fw-bold font-serif mb-0 text-muted"><i class="fa-solid fa-chart-line me-2"></i> Activity Summary</h6>
+            </div>
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                    <span class="text-muted">Total Visits</span>
+                    <span class="fw-bold font-mono">@Model.Appointments.Count</span>
+                </div>
+                <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                    <span class="text-muted">Support Requests</span>
+                    <span class="fw-bold font-mono">@Model.SupportRequests.Count</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span class="text-muted">Upcoming Visits</span>
+                    <span class="fw-bold font-mono text-success">@Model.Appointments.Count(a => a.Status == "Approved")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

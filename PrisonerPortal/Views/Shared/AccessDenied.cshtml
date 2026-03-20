@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Access Denied";
+    Layout = "_Layout";
+}
+
+<div class="row w-100 m-0 justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6 text-center py-5">
+        <i class="fa-solid fa-lock text-danger opacity-75 mb-4" style="font-size: 5rem;"></i>
+        <h1 class="font-serif fw-bold text-dark display-4 mb-3">Access Denied</h1>
+        <p class="text-muted fs-5 mb-4">You do not have the required permissions or correct role to view this page or perform this action.</p>
+        
+        <div class="bg-surface p-4 rounded border text-start mb-5 shadow-sm">
+            <h6 class="fw-bold"><i class="fa-solid fa-circle-question text-primary me-2"></i> Why am I seeing this?</h6>
+            <ul class="text-muted small mb-0 mt-2 p-0 px-3">
+                <li class="mb-1">You may be logged in as a Family member trying to access Admin pages.</li>
+                <li class="mb-1">You may be logged in as an Admin trying to access Family portals.</li>
+                <li>Your session might have expired.</li>
+            </ul>
+        </div>
+
+        <a asp-controller="Account" asp-action="Login" class="btn btn-primary px-4 py-2 fw-bold shadow-sm me-2">
+            <i class="fa-solid fa-arrow-right-to-bracket me-2"></i> Go to Sign In
+        </a>
+        <button onclick="history.back()" class="btn btn-outline-secondary px-4 py-2 fw-bold shadow-sm">
+            <i class="fa-solid fa-arrow-left me-2"></i> Go Back
+        </button>
+    </div>
+</div>

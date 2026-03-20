@@ -1,0 +1,148 @@
+@model IEnumerable<PrisonerPortal.Models.Entities.Prisoner>
+@{
+    ViewData["Title"] = "Search & Link Inmate";
+    string searchTerm = ViewBag.SearchTerm ?? "";
+    var userLinks = ViewBag.UserLinks as IEnumerable<PrisonerPortal.Models.Entities.FamilyPrisonerLink>;
+}
+
+<div class="row w-100 m-0 mb-4">
+    <div class="col-12 col-lg-8 mx-auto text-center">
+        <i class="fa-solid fa-magnifying-glass fs-1 text-primary mb-3 opacity-50"></i>
+        <h2 class="font-serif fw-bold mb-2">Find Your Family Member</h2>
+        <p class="text-muted mb-4">Enter the exact Prisoner Code or full name and case number to find an inmate.</p>
+        
+        <form asp-action="SearchPrisoner" method="get" class="mb-5">
+            <div class="input-group input-group-lg shadow-sm">
+                <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-id-card"></i></span>
+                <input type="text" name="q" value="@searchTerm" class="form-control border-start-0" placeholder="E.g., PRSN-6B5A or John Doe" required minlength="3" />
+                <button class="btn btn-primary px-4 fw-bold" type="submit">Search Database</button>
+            </div>
+            <div class="form-text mt-2 text-start px-2"><i class="fa-solid fa-circle-info text-primary me-1"></i> Partial records will only show verified inmates to protect privacy.</div>
+        </form>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(searchTerm))
+{
+    <div class="card content-card p-0 mb-4">
+        <div class="card-header bg-surface p-4 border-bottom">
+            <h5 class="fw-bold font-serif mb-0">Search Results</h5>
+        </div>
+        
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-custom table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Inmate Name</th>
+                            <th>Prisoner Code</th>
+                            <th>DOB / Case</th>
+                            <th>Facility</th>
+                            <th class="text-end">Connection</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model)
+                        {
+                            var existingLink = userLinks?.FirstOrDefault(l => l.PrisonerId == p.PrisonerId);
+                            
+                            <tr>
+                                <td>
+                                    <div class="fw-bold text-dark fs-5">@p.FullName</div>
+                                    <span class="badge bg-light text-dark border mt-1">@p.Gender</span>
+                                </td>
+                                <td class="font-mono text-primary fw-semibold align-middle">@p.PrisonerCode</td>
+                                <td class="align-middle">
+                                    <div class="fw-semibold">@p.DateOfBirth.ToString("yyyy-MM-dd")</div>
+                                    <small class="text-muted">Case: @p.CaseNumber</small>
+                                </td>
+                                <td class="align-middle">
+                                    <div><i class="fa-solid fa-building me-1 text-muted"></i>@p.CellBlock</div>
+                                </td>
+                                <td class="text-end align-middle">
+                                    @if(existingLink != null)
+                                    {
+                                        if (existingLink.IsVerified)
+                                        {
+                                            <a asp-action="PrisonerDetail" asp-route-id="@p.PrisonerId" class="btn btn-sm btn-success fw-bold shadow-sm">
+                                                <i class="fa-solid fa-check-circle me-1"></i> Linked
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge-status pending d-inline-block shadow-sm">
+                                                <i class="fa-solid fa-clock me-1"></i> Pending Verification
+                                            </span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-bs-toggle="modal" data-bs-target="#linkModal_@p.PrisonerId">
+                                            <i class="fa-solid fa-link me-1"></i> Request Link
+                                        </button>
+                                        
+                                        <!-- Link Modal -->
+                                        <div class="modal fade" id="linkModal_@p.PrisonerId" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content border-0 shadow-lg text-start">
+                                                    <div class="modal-header bg-primary text-white border-0">
+                                                        <h5 class="modal-title font-serif fw-bold"><i class="fa-solid fa-link me-2 text-accent"></i>Family Link Request</h5>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <form asp-action="RequestLink" method="post">
+                                                        <div class="modal-body p-4 bg-surface">
+                                                            <input type="hidden" name="PrisonerId" value="@p.PrisonerId" />
+                                                            
+                                                            <div class="mb-3 bg-white p-3 rounded border text-center">
+                                                                <div class="text-muted small fw-bold text-uppercase">Connecting Account With</div>
+                                                                <div class="fs-4 fw-bold text-dark my-1">@p.FullName</div>
+                                                                <div class="font-mono text-primary fw-semibold">@p.PrisonerCode</div>
+                                                            </div>
+
+                                                            <div class="mb-4">
+                                                                <label class="form-label fw-semibold">What is your relationship to this inmate?</label>
+                                                                <select name="Relationship" class="form-select form-select-lg shadow-sm border-primary" required>
+                                                                    <option value="" selected disabled>Select relationship...</option>
+                                                                    <option value="Spouse">Spouse / Partner</option>
+                                                                    <option value="Parent">Parent</option>
+                                                                    <option value="Sibling">Sibling</option>
+                                                                    <option value="Child">Child (Over 18)</option>
+                                                                    <option value="Legal Counsel">Legal Counsel</option>
+                                                                    <option value="Other">Other Verified Relation</option>
+                                                                </select>
+                                                            </div>
+                                                            
+                                                            <div class="alert alert-warning border-0 d-flex align-items-start mb-0">
+                                                                <i class="fa-solid fa-triangle-exclamation fs-4 me-3 mt-1 text-warning"></i>
+                                                                <div class="small">
+                                                                    <strong>Important:</strong> Fraudulent link requests are subject to prosecution. Facility admin will verify relationships against registered contact lists.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer border-0 p-4 pt-0 bg-surface">
+                                                            <button type="button" class="btn btn-light w-100 mb-2" data-bs-dismiss="modal">Cancel</button>
+                                                            <button type="submit" class="btn btn-primary w-100 fw-bold m-0 shadow-sm"><i class="fa-solid fa-paper-plane me-2"></i>Submit Official Request</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="empty-state p-5">
+                <i class="fa-solid fa-user-xmark empty-state-icon text-muted opacity-50"></i>
+                <h6 class="fw-bold fs-5">No inmates found matching your criteria.</h6>
+                <p class="text-muted mx-auto" style="max-width:400px;">Please ensure you have the exact Prisoner Code or correct spelling of the full name. Contact the facility if the issue persists.</p>
+            </div>
+        }
+    </div>
+}
