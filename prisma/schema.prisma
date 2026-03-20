@@ -1,0 +1,57 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int              @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  email          String           @unique
+  passwordHash   String
+  phoneNumber    String?
+  role           String           @default("Family") // 'Family' or 'Admin'
+  createdAt      DateTime         @default(now())
+  
+  appointments   Appointment[]
+  supportRequests SupportRequest[]
+}
+
+model Prisoner {
+  id             Int           @id @default(autoincrement())
+  prisonerNumber String        @unique
+  firstName      String
+  lastName       String
+  facility       String
+  status         String        @default("Active")
+  
+  appointments   Appointment[]
+}
+
+model Appointment {
+  id          Int      @id @default(autoincrement())
+  familyId    Int
+  prisonerId  Int
+  date        DateTime
+  status      String   @default("Pending") // Pending, Approved, Rejected
+  createdAt   DateTime @default(now())
+
+  family      User     @relation(fields: [familyId], references: [id])
+  prisoner    Prisoner @relation(fields: [prisonerId], references: [id])
+}
+
+model SupportRequest {
+  id          Int      @id @default(autoincrement())
+  familyId    Int
+  subject     String
+  description String   @db.Text
+  status      String   @default("Open") // Open, In Progress, Resolved
+  createdAt   DateTime @default(now())
+
+  family      User     @relation(fields: [familyId], references: [id])
+}
